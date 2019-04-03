@@ -1,4 +1,6 @@
 package ua.com.foxminded.division.math;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
 
 import lombok.Data;
 
@@ -9,10 +11,15 @@ public class Result {
     private int quotient;
     private int remainder;
     private Stage[] stages;
+    
+    public Result() {
+    }
 
+    @Data
     private class Stage {
         private int partialDividend;
         private int partialDividendWithoutRemainder;
+        @JsonIgnore
         private int offset;
 
         public Stage(int partialDividend, int partialDividendWithoutRemainder, int offset) {
@@ -49,5 +56,4 @@ public class Result {
     public int getOffset(int index) {
         return stages[index].offset;
     }
-
 }

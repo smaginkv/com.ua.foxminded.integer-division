@@ -69,4 +69,9 @@ public class ClassicFormatter implements Formatter {
         return String.format("%%-%dd|%%d\n", offset);
     }
 
+    @Override
+    public String toString() {
+        return "Classic";
+    }
+
 }
