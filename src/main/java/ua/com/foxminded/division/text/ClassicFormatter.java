@@ -29,24 +29,33 @@ public class ClassicFormatter implements Formatter {
 
     private String getOutput(Result result, int step) {
 
-        if (step == 0) {
-            return getOutputHead(result, step);
-        } else if (step < result.getStagesNumber())
-            return getOutputBody(result, step);
-        else
-            return getOutputTail(result);
+        String output = "";
+        if (step == 0)
+            output += getOutputHead(result, step);
+
+        if (step != result.getStagesNumber())
+            output += getOutputBody(result, step);
+
+        if (step > 0 && step == result.getStagesNumber())
+            output += getOutputTail(result);
+        return output;
+
     }
 
     private String getOutputHead(Result result, int step) {
         String output, formatHead2Line;
-
-        integralOffset += result.getStageOffset(step);
-
         output = String.format(TEMPLATE_HEAD_1_LINE, result.getDividend(), result.getDivisor());
 
-        formatHead2Line = getFormatHead2Line(lengthDividended);
-        output += String.format(formatHead2Line, result.getPartialDividendWithoutRemainder(step), result.getQuotient());
-
+        if (step == result.getStagesNumber()) {
+            integralOffset += result.getRemaindOffset();
+            formatHead2Line = getFormatHead2Line(lengthDividended);
+            output += String.format(formatHead2Line, result.getRemainder(), result.getQuotient());
+        } else {
+            integralOffset += result.getStageOffset(step);
+            formatHead2Line = getFormatHead2Line(lengthDividended);
+            output += String.format(formatHead2Line, result.getPartialDividendWithoutRemainder(step),
+                    result.getQuotient());
+        }
         return output;
     }
 

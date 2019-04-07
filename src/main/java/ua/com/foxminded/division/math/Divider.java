@@ -1,5 +1,7 @@
 package ua.com.foxminded.division.math;
 
+import ua.com.foxminded.exception.DivisionInputException;
+
 public class Divider {
     private int cursor, sizeDigitArray, offset;
     private int quotient, partialDividend, divisor;
@@ -13,11 +15,10 @@ public class Divider {
         result = new Result();
     }
 
-    public Result divide(int dividend, int divisor) {
-        if (dividend < divisor)
-            throw new RuntimeException("Divident is smaller than divisor");
+    public Result divide(int dividend, int divisor) throws DivisionInputException {
+        checkInput(dividend, divisor);
 
-        countDigits(dividend, divisor);
+        setup(dividend, divisor);
 
         while (hasPartialDividend()) {
             processPartialDividend();
@@ -27,10 +28,11 @@ public class Divider {
         result.setDivisor(divisor);
         result.setQuotient(quotient);
         result.setRemainder(partialDividend);
+        result.setRemaindOffset(offset);
         return result;
     }
 
-    private void countDigits(Integer dividend, int divisor) {
+    private void setup(Integer dividend, int divisor) {
         String digitAsString = dividend.toString();
         this.digitArray = new int[digitAsString.length()];
         for (int i = 0; i < digitAsString.length(); i++) {
@@ -67,11 +69,12 @@ public class Divider {
             quotient++;
         }
         result.addStage(integralPartialDividend, integralPartialDividend - partialDividend, offset);
+        offset = 0;
     }
 
     private int NextDigit() {
         if (cursor == sizeDigitArray)
-            throw new RuntimeException("No such digit exception");
+            throw new IndexOutOfBoundsException();
         return digitArray[cursor++];
     }
 
@@ -84,6 +87,15 @@ public class Divider {
             return multiplicand;
         else
             return multiply(multiplicand, --multiplier) + multiplicand;
+    }
+    
+    private void checkInput(int dividend, int divisor) {
+        if (divisor == 0)
+            throw new DivisionInputException("Division by zero!");
+        
+        if (divisor < 0 || dividend < 0)
+            throw new DivisionInputException("Operation is possible if both numbers are positive!");
+        
     }
 
 }

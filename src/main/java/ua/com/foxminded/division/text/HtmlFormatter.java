@@ -6,13 +6,15 @@ import java.io.OutputStream;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
-
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
+import com.github.mustachejava.MustacheNotFoundException;
 
 import lombok.Data;
 import lombok.Setter;
 import ua.com.foxminded.division.math.Result;
+import ua.com.foxminded.exception.DivisionFileNotSetException;
+import ua.com.foxminded.exception.DivisionInnerProccessingException;
 
 public class HtmlFormatter implements Formatter {
     @Setter
@@ -21,16 +23,21 @@ public class HtmlFormatter implements Formatter {
     private int lengthDivisor;
     private final String TEMPLATE_HEAD_2_LINE = "%d|%d\n";
     private final String TEMPLATE_BODY_TAIL = "%%%dd\n";
+    private final String MUSTACHE_TEMPLATE_NAME = "template.mustache";
 
-    private void setup(Result result) {
+    private void setup(Result result) throws DivisionFileNotSetException {
+        
+        if(fileName == "")
+            throw new DivisionFileNotSetException();
+            
         String stringDivisor = String.valueOf(result.getDivisor());
         this.lengthDivisor = stringDivisor.length() + 1;
         this.integralOffset = lengthDivisor;
     }
 
-    public String format(Result result) {
+    public String format(Result result) throws DivisionFileNotSetException, DivisionInnerProccessingException {
         setup(result);
-        Mustache m = new DefaultMustacheFactory().compile("template.mustache");
+        Mustache mustacheTemplate = getMustacheTemplate();              
 
         Map<String, TableLine[]> context = new HashMap<>();
 
@@ -41,8 +48,15 @@ public class HtmlFormatter implements Formatter {
         context.put("tableLines", tableLines);
 
         StringWriter writer = new StringWriter();
-        m.execute(writer, context);
+        mustacheTemplate.execute(writer, context);
         return writer.toString();
+    }
+    private Mustache getMustacheTemplate() throws DivisionInnerProccessingException {
+        try {
+            return new DefaultMustacheFactory().compile(MUSTACHE_TEMPLATE_NAME);
+        } catch (MustacheNotFoundException e) {
+            throw new DivisionInnerProccessingException(String.format("Template \"%s\" not found", MUSTACHE_TEMPLATE_NAME));
+        }  
     }
 
     @Data
@@ -55,14 +69,16 @@ public class HtmlFormatter implements Formatter {
     }
 
     private String getOutput(Result result, int step) {
-        if (step == 0) {
-            return getOutputHead(result) + getOutputBody(result, step);
+        String output = "";
+        if (step == 0)
+            output += getOutputHead(result);
 
-        } else if (step < result.getStagesNumber()) {
-            return getOutputBody(result, step);
-
-        } else
-            return getOutputTail(result);
+        if (step != result.getStagesNumber())
+            output += getOutputBody(result, step);
+        
+        if(step == result.getStagesNumber())
+            output += getOutputTail(result);
+        return output;
     }
 
     private String getOutputHead(Result result) {
@@ -90,6 +106,7 @@ public class HtmlFormatter implements Formatter {
     }
 
     private String getOutputTail(Result result) {
+        integralOffset += result.getRemaindOffset();
         return String.format(getFormatBodyTail(integralOffset), result.getRemainder());
     }
 

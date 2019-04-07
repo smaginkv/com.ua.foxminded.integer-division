@@ -6,6 +6,8 @@ import java.io.OutputStream;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import ua.com.foxminded.division.math.Result;
+import ua.com.foxminded.exception.DivisionFileNotSetException;
+import ua.com.foxminded.exception.DivisionInnerProccessingException;
 
 public class XmlFormatter implements Formatter {
     private String fileName;
@@ -20,13 +22,16 @@ public class XmlFormatter implements Formatter {
         this.fileName = fileName;
     };
 
-    public String format(Result result) {
+    public String format(Result result) throws DivisionFileNotSetException, DivisionInnerProccessingException {
+        if(fileName == "")
+            throw new DivisionFileNotSetException();
+        
         XmlMapper xmlMapper = new XmlMapper();
         String output = "";
         try {
             output = xmlMapper.writerWithDefaultPrettyPrinter().writeValueAsString(result);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            throw new DivisionInnerProccessingException(e);
         }
         return output;
     }

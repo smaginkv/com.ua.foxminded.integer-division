@@ -9,6 +9,8 @@ public class Result {
     private int divisor;
     private int quotient;
     private int remainder;
+    @JsonIgnore
+    private int remaindOffset;
     private Stage[] stages;
 
     @Data
@@ -42,14 +44,20 @@ public class Result {
     }
 
     public int getPartialDividend(int index) {
+        if (index >= stages.length)
+            throw new IndexOutOfBoundsException();
         return stages[index].partialDividend;
     }
 
     public int getPartialDividendWithoutRemainder(int index) {
+        if (index >= stages.length)
+            throw new IndexOutOfBoundsException();
         return stages[index].partialDividendWithoutRemainder;
     }
 
     public int getStageOffset(int index) {
+        if (index >= stages.length)
+            throw new IndexOutOfBoundsException();        
         return stages[index].offset;
     }
 }
