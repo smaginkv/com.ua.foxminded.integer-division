@@ -1,4 +1,5 @@
 package ua.com.foxminded.division.injection;
+
 import ua.com.foxminded.division.text.*;
 
 public class Context {

@@ -1,6 +1,6 @@
 package ua.com.foxminded.division.math;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 @Data
@@ -37,7 +37,7 @@ public class Result {
         stages = tempStages;
     }
 
-    public int length() {
+    public int getStagesNumber() {
         return stages.length;
     }
 
@@ -49,7 +49,7 @@ public class Result {
         return stages[index].partialDividendWithoutRemainder;
     }
 
-    public int getOffset(int index) {
+    public int getStageOffset(int index) {
         return stages[index].offset;
     }
 }

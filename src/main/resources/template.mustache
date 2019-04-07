@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Variant-1</title>
+<style>
+.division {
+	border: 1px dashed #634f36;
+	background: #fffff5;
+	font-family: "Courier New", Courier, monospace;
+	padding: 7px;
+	white-space: pre;
+}
+
+td:hover {
+	background: #786b59;
+	color: #ffe;
+}
+</style>
+</head>
+<body>
+	<p>British notation:</p>
+	<table class="division">
+		{{#tableLines}}
+		<tr>
+			<td><span>{{value}}</span></td>
+		</tr>
+		{{/tableLines}}
+	</table>
+</body>
+</html>

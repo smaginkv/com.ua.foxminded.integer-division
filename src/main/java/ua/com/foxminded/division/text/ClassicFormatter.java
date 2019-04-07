@@ -1,12 +1,14 @@
 package ua.com.foxminded.division.text;
 
 import java.io.OutputStream;
-
 import ua.com.foxminded.division.math.Result;
 
 public class ClassicFormatter implements Formatter {
     private int integralOffset;
     private int lengthDividended;
+    private final String TEMPLATE_BODY_TAIL = "%%%dd\n";
+    private final String TEMPLATE_HEAD_1_LINE = "%d|%d\n";
+    private final String TEMPLATE_HEAD_2_LINE = "%%-%dd|%%d\n";
 
     private void setup(Result result) {
         this.integralOffset = 0;
@@ -19,7 +21,7 @@ public class ClassicFormatter implements Formatter {
         setup(result);
         String output = "";
 
-        for (int i = 0; i <= result.length(); i++) {
+        for (int i = 0; i <= result.getStagesNumber(); i++) {
             output += getOutput(result, i);
         }
         return output;
@@ -27,22 +29,20 @@ public class ClassicFormatter implements Formatter {
 
     private String getOutput(Result result, int step) {
 
-        if (step == result.length())
+        if (step == 0) {
+            return getOutputHead(result, step);
+        } else if (step < result.getStagesNumber())
+            return getOutputBody(result, step);
+        else
             return getOutputTail(result);
-        else {
-            integralOffset += result.getOffset(step);
-            if (step == 0)
-                return getOutputHead(result, step);
-
-            else
-                return getOutputBody(result, step);
-        }
     }
 
     private String getOutputHead(Result result, int step) {
         String output, formatHead2Line;
 
-        output = String.format("%d|%d\n", result.getDividend(), result.getDivisor());
+        integralOffset += result.getStageOffset(step);
+
+        output = String.format(TEMPLATE_HEAD_1_LINE, result.getDividend(), result.getDivisor());
 
         formatHead2Line = getFormatHead2Line(lengthDividended);
         output += String.format(formatHead2Line, result.getPartialDividendWithoutRemainder(step), result.getQuotient());
@@ -51,7 +51,9 @@ public class ClassicFormatter implements Formatter {
     }
 
     private String getOutputBody(Result result, int step) {
-        String output, formatBodyTail;
+        String output = "", formatBodyTail;
+
+        integralOffset += result.getStageOffset(step);
 
         formatBodyTail = getFormatBodyTail(integralOffset);
         output = String.format(formatBodyTail, result.getPartialDividend(step));
@@ -64,17 +66,18 @@ public class ClassicFormatter implements Formatter {
     }
 
     String getFormatBodyTail(int offset) {
-        return String.format("%%%dd\n", offset);
+        return String.format(TEMPLATE_BODY_TAIL, offset);
     }
 
     String getFormatHead2Line(int offset) {
-        return String.format("%%-%dd|%%d\n", offset);
+        return String.format(TEMPLATE_HEAD_2_LINE, offset);
     }
 
     @Override
     public String toString() {
         return "Classic";
     }
+
     public OutputStream getOutputStream() {
         return System.out;
     }

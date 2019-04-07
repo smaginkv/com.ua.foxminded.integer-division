@@ -3,25 +3,23 @@ package ua.com.foxminded.division.text;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-
-import lombok.Getter;
-import lombok.Setter;
 import ua.com.foxminded.division.math.Result;
 
 public class XmlFormatter implements Formatter {
     private String fileName;
+
     @Override
-    public String getFileName(){ 
+    public String getFileName() {
         return fileName;
     };
+
     @Override
     public void setFileName(String fileName) {
         this.fileName = fileName;
     };
-    
+
     public String format(Result result) {
         XmlMapper xmlMapper = new XmlMapper();
         String output = "";
@@ -37,10 +35,10 @@ public class XmlFormatter implements Formatter {
     public String toString() {
         return "XML";
     }
-    
+
     public OutputStream getOutputStream() throws FileNotFoundException {
         return new FileOutputStream(fileName);
-         
-     }
+
+    }
 
 }

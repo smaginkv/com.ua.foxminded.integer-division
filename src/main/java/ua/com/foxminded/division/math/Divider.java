@@ -1,7 +1,5 @@
 package ua.com.foxminded.division.math;
 
-import javax.management.RuntimeErrorException;
-
 public class Divider {
     private int cursor, sizeDigitArray, offset;
     private int quotient, partialDividend, divisor;
@@ -21,9 +19,9 @@ public class Divider {
 
         countDigits(dividend, divisor);
 
-        while (hasPartialDividend()){
+        while (hasPartialDividend()) {
             processPartialDividend();
-        }     
+        }
 
         result.setDividend(dividend);
         result.setDivisor(divisor);

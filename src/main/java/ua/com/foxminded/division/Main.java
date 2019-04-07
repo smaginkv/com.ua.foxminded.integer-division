@@ -2,36 +2,31 @@ package ua.com.foxminded.division;
 
 import ua.com.foxminded.division.text.*;
 import ua.com.foxminded.division.math.*;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
-
 import ua.com.foxminded.division.injection.*;
 
 //не забыть завигачить исключения
 //не забыть зафигачить тесты
 //read me с картинками
-//батник и uber file
 public class Main {
     public static void main(String[] args) {
-        Formatter formatter = proccessArgs(args);        
-            
-        int dividend = Integer.parseInt(args[0]);
-        int divisor = Integer.parseInt(args[1]);        
+        Formatter formatter = proccessArgs(args);
 
-        System.out.printf(
-                "Hello, welcome to application \"integer division\"!\n"
-                        + "Output format is: %s. Yours dividend is %d, divisor is %d!\n",
-                formatter, dividend, divisor);
-        
+        int dividend = Integer.parseInt(args[0]);
+        int divisor = Integer.parseInt(args[1]);
+
+        System.out.printf("Hello, welcome to application \"integer division\"!\n"
+                + "Output format is: %s. Yours dividend is %d, divisor is %d!\n", formatter, dividend, divisor);
+
         Divider divider = new Divider();
-        Result result = divider.divide(dividend, divisor);       
-        
+        Result result = divider.divide(dividend, divisor);
+
         String output = formatter.format(result);
         writeDivisionResult(formatter, output);
     }
-    
+
     private static Formatter proccessArgs(String[] args) {
         Context context = Context.getInstance();
         Formatter formatter;
@@ -43,9 +38,9 @@ public class Main {
             formatter = chooseFormatter(args[2], context);
         } else
             formatter = context.getFormatter(Format.CLASSIC);
-        if(args.length > 4)
+        if (args.length > 4)
             formatter.setFileName(args[4]);
-        
+
         return formatter;
 
     }
@@ -61,19 +56,18 @@ public class Main {
 
             return context.getFormatter(Format.HTML);
         else
-            throw new RuntimeException("unidentified option: " + option);    
+            throw new RuntimeException("unidentified option: " + option);
     }
-    
+
     private static void writeDivisionResult(Formatter formatter, String output) {
-        try {            
+        try {
             OutputStream outputStream = formatter.getOutputStream();
             outputStream.write(output.getBytes());
         } catch (FileNotFoundException e) {
-            System.err.println("File not found "+formatter.getFileName());
-        }catch (IOException e) {
+            System.err.println("File not found " + formatter.getFileName());
+        } catch (IOException e) {
             System.err.println("I/O exception has occurred");
         }
-        
-        
+
     }
 }
