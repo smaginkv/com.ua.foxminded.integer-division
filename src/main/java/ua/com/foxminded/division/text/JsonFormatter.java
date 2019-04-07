@@ -1,11 +1,13 @@
 package ua.com.foxminded.division.text;
 
+import java.io.OutputStream;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ua.com.foxminded.division.math.Result;
 
-public class JSON implements Formatter {
+public class JsonFormatter implements Formatter {
 
     public String format(Result result) {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -24,5 +26,7 @@ public class JSON implements Formatter {
     public String toString() {
         return "JSON";
     }
-    
+    public OutputStream getOutputStream() {
+        return System.out;
+    }
 }
