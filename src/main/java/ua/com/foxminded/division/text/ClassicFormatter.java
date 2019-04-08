@@ -32,12 +32,12 @@ public class ClassicFormatter implements Formatter {
         String output = "";
         if (step == 0)
             output += getOutputHead(result, step);
-
-        if (step != result.getStagesNumber())
-            output += getOutputBody(result, step);
-
-        if (step > 0 && step == result.getStagesNumber())
-            output += getOutputTail(result);
+        else {
+            if (step != result.getStagesNumber())
+                output += getOutputBody(result, step);
+            else
+                output += getOutputTail(result);
+        }
         return output;
 
     }
