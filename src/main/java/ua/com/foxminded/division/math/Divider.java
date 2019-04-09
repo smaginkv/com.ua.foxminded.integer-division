@@ -34,7 +34,7 @@ public class Divider {
 
     private void setup(int dividend, int divisor) {
         int unsignedDividend = (dividend > 0 ? dividend : -dividend);
-        
+
         String digitAsString = Integer.valueOf(unsignedDividend).toString();
         this.digitArray = new int[digitAsString.length()];
         for (int i = 0; i < digitAsString.length(); i++) {
@@ -96,10 +96,6 @@ public class Divider {
     private void checkInput(int dividend, int divisor) {
         if (divisor == 0)
             throw new DivisionInputException("Division by zero!");
-
-//        if (divisor < 0 || dividend < 0)
-//            throw new DivisionInputException("Operation is possible if both numbers are positive!");
-
     }
 
 }
