@@ -1,5 +1,7 @@
 target/
 
+uberjar/
+
 pom.xml.tag
 
 pom.xml.releaseBackup
