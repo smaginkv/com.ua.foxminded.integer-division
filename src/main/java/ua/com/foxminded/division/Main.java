@@ -1,11 +1,11 @@
 package ua.com.foxminded.division;
 
 import ua.com.foxminded.division.text.*;
-import ua.com.foxminded.exception.*;
 import ua.com.foxminded.division.math.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import ua.com.foxminded.division.exception.*;
 import ua.com.foxminded.division.injection.*;
 
 //не забыть зафигачить тесты

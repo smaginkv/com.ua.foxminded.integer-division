@@ -1,6 +1,6 @@
 package ua.com.foxminded.division.math;
 
-import ua.com.foxminded.exception.DivisionInputException;
+import ua.com.foxminded.division.exception.DivisionInputException;
 
 public class Divider {
     private int cursor, sizeDigitArray, offset;
@@ -32,8 +32,10 @@ public class Divider {
         return result;
     }
 
-    private void setup(Integer dividend, int divisor) {
-        String digitAsString = dividend.toString();
+    private void setup(int dividend, int divisor) {
+        int unsignedDividend = (dividend > 0 ? dividend : -dividend);
+        
+        String digitAsString = Integer.valueOf(unsignedDividend).toString();
         this.digitArray = new int[digitAsString.length()];
         for (int i = 0; i < digitAsString.length(); i++) {
             this.digitArray[i] = Integer.parseInt(digitAsString.substring(i, i + 1));
@@ -41,9 +43,11 @@ public class Divider {
 
         this.sizeDigitArray = digitAsString.length();
 
-        this.divisor = divisor;
+        this.divisor = (divisor > 0 ? divisor : -divisor);
 
         this.result.clearStages();
+
+        this.result.setupIfNegative(dividend < 0, divisor < 0);
     }
 
     private boolean hasPartialDividend() {
@@ -88,14 +92,14 @@ public class Divider {
         else
             return multiply(multiplicand, --multiplier) + multiplicand;
     }
-    
+
     private void checkInput(int dividend, int divisor) {
         if (divisor == 0)
             throw new DivisionInputException("Division by zero!");
-        
-        if (divisor < 0 || dividend < 0)
-            throw new DivisionInputException("Operation is possible if both numbers are positive!");
-        
+
+//        if (divisor < 0 || dividend < 0)
+//            throw new DivisionInputException("Operation is possible if both numbers are positive!");
+
     }
 
 }

@@ -7,8 +7,8 @@ public class ClassicFormatter implements Formatter {
     private int integralOffset;
     private int lengthDividended;
     private final String TEMPLATE_BODY_TAIL = "%%%dd\n";
-    private final String TEMPLATE_HEAD_1_LINE = "%d|%d\n";
-    private final String TEMPLATE_HEAD_2_LINE = "%%-%dd|%%d\n";
+    private final String TEMPLATE_HEAD = "%%-%ds|%%d\n";
+    private final String TEMPLATE_HEAD_DIVIDEND = "%%%dd";
 
     private void setup(Result result) {
         this.integralOffset = 0;
@@ -43,18 +43,21 @@ public class ClassicFormatter implements Formatter {
     }
 
     private String getOutputHead(Result result, int step) {
-        String output, formatHead2Line;
-        output = String.format(TEMPLATE_HEAD_1_LINE, result.getDividend(), result.getDivisor());
+        String output, formatHead, formatHeadDividend, partialDividend;
+        formatHead = getFormatHead(lengthDividended);
+        output = String.format(formatHead, result.getDividend(), result.getDivisor());
 
         if (step == result.getStagesNumber()) {
             integralOffset += result.getRemaindOffset();
-            formatHead2Line = getFormatHead2Line(lengthDividended);
-            output += String.format(formatHead2Line, result.getRemainder(), result.getQuotient());
+            output += String.format(formatHead, result.getRemainder(), result.getQuotient());
         } else {
             integralOffset += result.getStageOffset(step);
-            formatHead2Line = getFormatHead2Line(lengthDividended);
-            output += String.format(formatHead2Line, result.getPartialDividendWithoutRemainder(step),
-                    result.getQuotient());
+
+            //Add same format as a body, but with quotients appendix on right side
+            formatHeadDividend = getFormatHeadDividend(integralOffset);
+            partialDividend = String.format(formatHeadDividend, result.getPartialDividendWithoutRemainder(step));
+            
+            output += String.format(formatHead, partialDividend, result.getQuotient());
         }
         return output;
     }
@@ -78,8 +81,12 @@ public class ClassicFormatter implements Formatter {
         return String.format(TEMPLATE_BODY_TAIL, offset);
     }
 
-    String getFormatHead2Line(int offset) {
-        return String.format(TEMPLATE_HEAD_2_LINE, offset);
+    String getFormatHeadDividend(int offset) {
+        return String.format(TEMPLATE_HEAD_DIVIDEND, offset);
+    }
+
+    String getFormatHead(int offset) {
+        return String.format(TEMPLATE_HEAD, offset);
     }
 
     @Override

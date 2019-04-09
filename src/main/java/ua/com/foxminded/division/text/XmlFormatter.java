@@ -5,9 +5,10 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+
+import ua.com.foxminded.division.exception.DivisionFileNotSetException;
+import ua.com.foxminded.division.exception.DivisionInnerProccessingException;
 import ua.com.foxminded.division.math.Result;
-import ua.com.foxminded.exception.DivisionFileNotSetException;
-import ua.com.foxminded.exception.DivisionInnerProccessingException;
 
 public class XmlFormatter implements Formatter {
     private String fileName;

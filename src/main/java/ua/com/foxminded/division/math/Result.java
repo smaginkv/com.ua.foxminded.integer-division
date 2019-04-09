@@ -10,6 +10,10 @@ public class Result {
     private int quotient;
     private int remainder;
     @JsonIgnore
+    private boolean dividendIsNegative;
+    @JsonIgnore
+    private boolean divisorIsNegative;
+    @JsonIgnore
     private int remaindOffset;
     private Stage[] stages;
 
@@ -32,11 +36,32 @@ public class Result {
     }
 
     public void addStage(int partialDividend, int partialDividendWithoutRemainder, int offset) {
+        if (dividendIsNegative == true) {
+            partialDividend = -partialDividend;
+            partialDividendWithoutRemainder = -partialDividendWithoutRemainder;
+            if (stages.length == 0)
+                offset++;// for sign '-'
+        }
+
         Stage[] tempStages = new Stage[stages.length + 1];
         for (int i = 0; i < stages.length; i++)
             tempStages[i] = stages[i];
         tempStages[stages.length] = new Stage(partialDividend, partialDividendWithoutRemainder, offset);
         stages = tempStages;
+    }
+
+    public void setRemainder(int remainder) {
+        this.remainder = (dividendIsNegative == true ? -remainder : remainder);
+    }
+
+    public void setRemaindOffset(int remaindOffset) {
+        if (dividendIsNegative && stages.length == 0)
+            remaindOffset++;
+        this.remaindOffset = remaindOffset;
+    }
+
+    public void setQuotient(int quotient) {
+        this.quotient = (dividendIsNegative != divisorIsNegative ? -quotient : quotient);
     }
 
     public int getStagesNumber() {
@@ -57,7 +82,12 @@ public class Result {
 
     public int getStageOffset(int index) {
         if (index >= stages.length)
-            throw new IndexOutOfBoundsException();        
+            throw new IndexOutOfBoundsException();
         return stages[index].offset;
+    }
+
+    public void setupIfNegative(boolean dividendIsNegative, boolean divisorIsNegative) {
+        this.dividendIsNegative = dividendIsNegative;
+        this.divisorIsNegative = divisorIsNegative;
     }
 }

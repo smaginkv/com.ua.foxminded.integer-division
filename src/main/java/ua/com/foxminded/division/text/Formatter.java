@@ -5,9 +5,9 @@ import java.io.OutputStream;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import ua.com.foxminded.division.exception.DivisionFileNotSetException;
+import ua.com.foxminded.division.exception.DivisionInnerProccessingException;
 import ua.com.foxminded.division.math.Result;
-import ua.com.foxminded.exception.DivisionFileNotSetException;
-import ua.com.foxminded.exception.DivisionInnerProccessingException;
 
 public interface Formatter {
     public default void setFileName(String fileName) {

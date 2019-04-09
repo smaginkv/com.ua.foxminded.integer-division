@@ -12,9 +12,9 @@ import com.github.mustachejava.MustacheNotFoundException;
 
 import lombok.Data;
 import lombok.Setter;
+import ua.com.foxminded.division.exception.DivisionFileNotSetException;
+import ua.com.foxminded.division.exception.DivisionInnerProccessingException;
 import ua.com.foxminded.division.math.Result;
-import ua.com.foxminded.exception.DivisionFileNotSetException;
-import ua.com.foxminded.exception.DivisionInnerProccessingException;
 
 public class HtmlFormatter implements Formatter {
     @Setter

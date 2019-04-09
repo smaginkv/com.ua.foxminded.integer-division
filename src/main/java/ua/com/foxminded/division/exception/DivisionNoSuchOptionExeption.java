@@ -1,4 +1,4 @@
-package ua.com.foxminded.exception;
+package ua.com.foxminded.division.exception;
 import org.omg.CORBA.UserException;
 
 public class DivisionNoSuchOptionExeption extends DivisionException {
