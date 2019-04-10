@@ -1,13 +1,11 @@
 package ua.com.foxminded.division.math;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode
 public class Result {
     private int dividend;
     private int divisor;
@@ -32,15 +30,6 @@ public class Result {
             this.partialDividend = partialDividend;
             this.partialDividendWithoutRemainder = partialDividendWithoutRemainder;
             this.offset = offset;
-        }
-        public boolean equals(Stage stage) {
-            if(stage.partialDividend != this.partialDividend)
-                return false;
-            if(stage.partialDividendWithoutRemainder != this.partialDividendWithoutRemainder)
-                return false;
-            if(stage.offset != this.offset)
-                return false;
-            return true;            
         }
     }
 
@@ -102,42 +91,5 @@ public class Result {
     public void setupIfNegative(boolean dividendIsNegative, boolean divisorIsNegative) {
         this.dividendIsNegative = dividendIsNegative;
         this.divisorIsNegative = divisorIsNegative;
-    }
-
-    public boolean equals(Result result) {
-        if(result.dividend != this.dividend)
-            return false;
-        if(result.divisor != this.divisor)
-            return false;
-        if(result.quotient != this.quotient)
-            return false;
-        if(result.remainder != this.remainder)
-            return false;
-        if(result.dividendIsNegative != this.dividendIsNegative)
-            return false;
-        if(result.divisorIsNegative != this.divisorIsNegative)
-            return false;
-        if(result.remaindOffset != this.remaindOffset)
-            return false;
-        
-        return Result.equals(this.stages, result.stages);
-    }
-    public static boolean equals(Stage[] a, Stage[] a2) {
-        if (a==a2)
-            return true;
-        if (a==null || a2==null)
-            return false;
-
-        int length = a.length;
-        if (a2.length != length)
-            return false;
-
-        for (int i=0; i<length; i++) {
-            Stage o1 = a[i];
-            Stage o2 = a2[i];
-            if (!(o1==null ? o2==null : o1.equals(o2)))
-                return false;
-        }
-        return true;
     }
 }
