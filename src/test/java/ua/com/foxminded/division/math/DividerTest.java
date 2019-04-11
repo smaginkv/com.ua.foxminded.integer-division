@@ -9,12 +9,12 @@ import org.junit.jupiter.api.Test;
 
 class DividerTest {
     Divider divider;
-    Result standart;
+    Result expectedResult;
 
     @BeforeEach
     void setup() {
         divider = new Divider();
-        standart = new Result();
+        expectedResult = new Result();
     }
 
     @Nested
@@ -22,70 +22,70 @@ class DividerTest {
     class HappyPath {
         @Test
         void shouldResultCorrectWhenTwoPositives() {
-            standart.setDividend(1565);
-            standart.setDivisor(23);
-            standart.setQuotient(68);
-            standart.setRemainder(1);
-            standart.setDividendIsNegative(false);
-            standart.setDivisorIsNegative(false);
+            expectedResult.setDividend(1565);
+            expectedResult.setDivisor(23);
+            expectedResult.setQuotient(68);
+            expectedResult.setRemainder(1);
+            expectedResult.setDividendIsNegative(false);
+            expectedResult.setDivisorIsNegative(false);
 
-            standart.clearStages();
-            standart.addStage(156, 138, 3);
-            standart.addStage(185, 184, 1);
-            standart.setRemaindOffset(0);
+            expectedResult.clearStages();
+            expectedResult.addStage(156, 138, 3);
+            expectedResult.addStage(185, 184, 1);
+            expectedResult.setRemaindOffset(0);
 
-            assertEquals(standart, divider.divide(1565, 23));
+            assertEquals(expectedResult, divider.divide(1565, 23));
         }
 
         @Test
         void shouldResultCorrectWhenNegativeAndPositive() {
-            standart.setDividend(-1564);
-            standart.setDivisor(313);
-            standart.setQuotient(-4);
-            standart.setRemainder(-312);
-            standart.setDividendIsNegative(true);
-            standart.setDivisorIsNegative(false);
+            expectedResult.setDividend(-1564);
+            expectedResult.setDivisor(313);
+            expectedResult.setQuotient(-4);
+            expectedResult.setRemainder(-312);
+            expectedResult.setDividendIsNegative(true);
+            expectedResult.setDivisorIsNegative(false);
             
-            standart.clearStages();
-            standart.addStage(1564, 1252, 4);            
-            standart.setRemaindOffset(0);
+            expectedResult.clearStages();
+            expectedResult.addStage(1564, 1252, 4);            
+            expectedResult.setRemaindOffset(0);
 
-            assertEquals(standart, divider.divide(-1564, 313));
+            assertEquals(expectedResult, divider.divide(-1564, 313));
         }
 
         @Test
         void shouldResultCorrectWhenPositiveAndNegative() {
-            standart.setDividend(1564);
-            standart.setDivisor(-3);
-            standart.setQuotient(-521);
-            standart.setRemainder(1);
-            standart.setDividendIsNegative(false);
-            standart.setDivisorIsNegative(true);
+            expectedResult.setDividend(1564);
+            expectedResult.setDivisor(-3);
+            expectedResult.setQuotient(-521);
+            expectedResult.setRemainder(1);
+            expectedResult.setDividendIsNegative(false);
+            expectedResult.setDivisorIsNegative(true);
 
-            standart.clearStages();
-            standart.addStage(15, 15, 2);
-            standart.addStage(6, 6, 1);
-            standart.addStage(4, 3, 1);
-            standart.setRemaindOffset(0);
+            expectedResult.clearStages();
+            expectedResult.addStage(15, 15, 2);
+            expectedResult.addStage(6, 6, 1);
+            expectedResult.addStage(4, 3, 1);
+            expectedResult.setRemaindOffset(0);
 
-            assertEquals(standart, divider.divide(1564, -3));
+            assertEquals(expectedResult, divider.divide(1564, -3));
         }
         
         @Test
         void shouldResultCorrectWhenTwoNegative() {
-            standart.setDividend(-1564);
-            standart.setDivisor(-1313);
-            standart.setQuotient(1);
-            standart.setRemainder(-251);
-            standart.setDividendIsNegative(true);
-            standart.setDivisorIsNegative(true);
+            expectedResult.setDividend(-1564);
+            expectedResult.setDivisor(-1313);
+            expectedResult.setQuotient(1);
+            expectedResult.setRemainder(-251);
+            expectedResult.setDividendIsNegative(true);
+            expectedResult.setDivisorIsNegative(true);
             
-            standart.clearStages();
-            standart.addStage(1564, 1313, 4);            
-            standart.setRemaindOffset(0);
+            expectedResult.clearStages();
+            expectedResult.addStage(1564, 1313, 4);            
+            expectedResult.setRemaindOffset(0);
 
             Result result = divider.divide(-1564, -1313);
-            assertEquals(standart, result);
+            assertEquals(expectedResult, result);
         }
 
 

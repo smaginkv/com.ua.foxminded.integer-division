@@ -3,15 +3,15 @@ package ua.com.foxminded.division.math;
 import ua.com.foxminded.division.exception.DivisionInputException;
 
 public class Divider {
-    private int cursor, sizeDigitArray, offset;
+    private int cursor, offset;
     private int quotient, partialDividend, divisor;
-    private int[] digitArray;
+    private int[] dividendDigits;
     private Result result;
 
     public Divider() {
-        cursor = sizeDigitArray = offset = 0;
+        cursor = offset = 0;
         quotient = divisor = partialDividend = 0;
-        digitArray = null;
+        dividendDigits = null;
         result = new Result();
     }
 
@@ -36,17 +36,12 @@ public class Divider {
         int unsignedDividend = (dividend > 0 ? dividend : -dividend);
 
         String digitAsString = Integer.valueOf(unsignedDividend).toString();
-        this.digitArray = new int[digitAsString.length()];
+        this.dividendDigits = new int[digitAsString.length()];
         for (int i = 0; i < digitAsString.length(); i++) {
-            this.digitArray[i] = Integer.parseInt(digitAsString.substring(i, i + 1));
+            this.dividendDigits[i] = Integer.parseInt(digitAsString.substring(i, i + 1));
         }
-
-        this.sizeDigitArray = digitAsString.length();
-
         this.divisor = (divisor > 0 ? divisor : -divisor);
-
         this.result.clearStages();
-
         this.result.setupIfNegative(dividend < 0, divisor < 0);
     }
 
@@ -54,13 +49,14 @@ public class Divider {
         offset = 0;
         while (hasNextDigit()) {
             partialDividend = multiply(partialDividend, 10);
-            partialDividend += NextDigit();
+            partialDividend += nextDigit();
             offset++;
 
-            if (divisor <= partialDividend)
+            if (divisor <= partialDividend) {
                 return true;
-            else
+            } else {
                 quotient = multiply(quotient, 10);
+            }
         }
         return false;
     }
@@ -76,26 +72,30 @@ public class Divider {
         offset = 0;
     }
 
-    private int NextDigit() {
-        if (cursor == sizeDigitArray)
+    private int nextDigit() {
+        if (cursor == dividendDigits.length) {
             throw new IndexOutOfBoundsException();
-        return digitArray[cursor++];
+        }
+        int nextDigit = dividendDigits[cursor];
+        cursor++;
+        return nextDigit;
     }
 
     private boolean hasNextDigit() {
-        return cursor != sizeDigitArray;
+        return cursor != dividendDigits.length;
     }
 
     private int multiply(int multiplicand, int multiplier) {
-        if (multiplier == 1)
+        if (multiplier == 1) {
             return multiplicand;
-        else
+        } else {
             return multiply(multiplicand, --multiplier) + multiplicand;
+        }
     }
 
     private void checkInput(int dividend, int divisor) {
-        if (divisor == 0)
+        if (divisor == 0) {
             throw new DivisionInputException("Division by zero!");
+        }
     }
-
 }

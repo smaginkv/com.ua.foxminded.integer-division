@@ -17,37 +17,36 @@ public class Context {
     }
 
     private static void initFormatter(Format format) {
-        if (format == Format.CLASSIC)
-            if (classic == null)
+        if (format == Format.CLASSIC) {
+            if (classic == null) {
                 classic = new ClassicFormatter();
-            else
-                ;
-        else if (format == Format.XML)
-            if (xml == null)
+            }
+        } else if (format == Format.XML) {
+            if (xml == null) {
                 xml = new XmlFormatter();
-            else
-                ;
-        else if (format == Format.HTML)
-            if (html == null)
+            }
+        } else if (format == Format.HTML) {
+            if (html == null) {
                 html = new HtmlFormatter();
-            else
-                ;
-        else if (format == Format.JSON)
-            if (json == null)
+            }
+        } else if (format == Format.JSON) {
+            if (json == null) {
                 json = new JsonFormatter();
-
+            }
+        }
     }
 
     public Formatter getFormatter(Format format) {
         initFormatter(format);
-        if (format == Format.CLASSIC)
+        if (format == Format.CLASSIC) {
             return classic;
-        else if (format == Format.JSON)
+        } else if (format == Format.JSON) {
             return json;
-        else if (format == Format.HTML)
+        } else if (format == Format.HTML) {
             return html;
-        else if (format == Format.XML)
+        } else if (format == Format.XML) {
             return xml;
+        }
         return classic;
     }
 }

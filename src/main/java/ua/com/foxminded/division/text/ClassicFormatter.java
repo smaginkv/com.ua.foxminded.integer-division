@@ -30,16 +30,16 @@ public class ClassicFormatter implements Formatter {
     private String getOutput(Result result, int step) {
 
         String output = "";
-        if (step == 0)
+        if (step == 0) {
             output += getOutputHead(result, step);
-        else {
-            if (step != result.getStagesNumber())
+        } else {
+            if (step != result.getStagesNumber()) {
                 output += getOutputBody(result, step);
-            else
+            } else {
                 output += getOutputTail(result);
+            }
         }
         return output;
-
     }
 
     private String getOutputHead(Result result, int step) {
@@ -53,10 +53,10 @@ public class ClassicFormatter implements Formatter {
         } else {
             integralOffset += result.getStageOffset(step);
 
-            //Add same format as a body, but with quotients appendix on right side
+            // Add same format as a body, but with quotients appendix on right side
             formatHeadDividend = getFormatHeadDividend(integralOffset);
             partialDividend = String.format(formatHeadDividend, result.getPartialDividendWithoutRemainder(step));
-            
+
             output += String.format(formatHead, partialDividend, result.getQuotient());
         }
         return output;

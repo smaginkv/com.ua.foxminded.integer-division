@@ -26,10 +26,11 @@ public class HtmlFormatter implements Formatter {
     private final String MUSTACHE_TEMPLATE_NAME = "template.mustache";
 
     private void setup(Result result) throws DivisionFileNotSetException {
-        
-        if(fileName == "")
+
+        if (fileName == "") {
             throw new DivisionFileNotSetException();
-            
+        }
+
         String stringDivisor = String.valueOf(result.getDivisor());
         this.lengthDivisor = stringDivisor.length() + 1;
         this.integralOffset = lengthDivisor;
@@ -37,7 +38,7 @@ public class HtmlFormatter implements Formatter {
 
     public String format(Result result) throws DivisionFileNotSetException, DivisionInnerProccessingException {
         setup(result);
-        Mustache mustacheTemplate = getMustacheTemplate();              
+        Mustache mustacheTemplate = getMustacheTemplate();
 
         Map<String, TableLine[]> context = new HashMap<>();
 
@@ -51,12 +52,14 @@ public class HtmlFormatter implements Formatter {
         mustacheTemplate.execute(writer, context);
         return writer.toString();
     }
+
     private Mustache getMustacheTemplate() throws DivisionInnerProccessingException {
         try {
             return new DefaultMustacheFactory().compile(MUSTACHE_TEMPLATE_NAME);
         } catch (MustacheNotFoundException e) {
-            throw new DivisionInnerProccessingException(String.format("Template \"%s\" not found", MUSTACHE_TEMPLATE_NAME));
-        }  
+            throw new DivisionInnerProccessingException(
+                    String.format("Template \"%s\" not found", MUSTACHE_TEMPLATE_NAME));
+        }
     }
 
     @Data
@@ -70,14 +73,15 @@ public class HtmlFormatter implements Formatter {
 
     private String getOutput(Result result, int step) {
         String output = "";
-        if (step == 0)
+        if (step == 0) {
             output += getOutputHead(result);
-
-        if (step != result.getStagesNumber())
+        }
+        if (step != result.getStagesNumber()) {
             output += getOutputBody(result, step);
-        
-        if(step == result.getStagesNumber())
+        }
+        if (step == result.getStagesNumber()) {
             output += getOutputTail(result);
+        }
         return output;
     }
 
@@ -98,8 +102,9 @@ public class HtmlFormatter implements Formatter {
         integralOffset += result.getStageOffset(step);
 
         formatBodyTail = getFormatBodyTail(integralOffset);
-        if (step > 0)
+        if (step > 0) {
             output = String.format(formatBodyTail, result.getPartialDividend(step));
+        }
 
         output += String.format(formatBodyTail, result.getPartialDividendWithoutRemainder(step));
         return output;

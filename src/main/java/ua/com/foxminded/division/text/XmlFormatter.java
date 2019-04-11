@@ -24,9 +24,10 @@ public class XmlFormatter implements Formatter {
     };
 
     public String format(Result result) throws DivisionFileNotSetException, DivisionInnerProccessingException {
-        if(fileName == "")
+        if (fileName == "") {
             throw new DivisionFileNotSetException();
-        
+        }
+
         XmlMapper xmlMapper = new XmlMapper();
         String output = "";
         try {
@@ -46,5 +47,4 @@ public class XmlFormatter implements Formatter {
         return new FileOutputStream(fileName);
 
     }
-
 }

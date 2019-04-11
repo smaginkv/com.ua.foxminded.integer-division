@@ -41,13 +41,15 @@ public class Result {
         if (dividendIsNegative == true) {
             partialDividend = -partialDividend;
             partialDividendWithoutRemainder = -partialDividendWithoutRemainder;
-            if (stages.length == 0)
+            if (stages.length == 0) {
                 offset++;// for sign '-'
+            }
         }
 
         Stage[] tempStages = new Stage[stages.length + 1];
-        for (int i = 0; i < stages.length; i++)
+        for (int i = 0; i < stages.length; i++) {
             tempStages[i] = stages[i];
+        }
         tempStages[stages.length] = new Stage(partialDividend, partialDividendWithoutRemainder, offset);
         stages = tempStages;
     }
@@ -57,8 +59,9 @@ public class Result {
     }
 
     public void setRemaindOffset(int remaindOffset) {
-        if (dividendIsNegative && stages.length == 0)
+        if (dividendIsNegative && stages.length == 0) {
             remaindOffset++;
+        }
         this.remaindOffset = remaindOffset;
     }
 
@@ -71,20 +74,23 @@ public class Result {
     }
 
     public int getPartialDividend(int index) {
-        if (index >= stages.length)
+        if (index >= stages.length) {
             throw new IndexOutOfBoundsException();
+        }
         return stages[index].partialDividend;
     }
 
     public int getPartialDividendWithoutRemainder(int index) {
-        if (index >= stages.length)
+        if (index >= stages.length) {
             throw new IndexOutOfBoundsException();
+        }
         return stages[index].partialDividendWithoutRemainder;
     }
 
     public int getStageOffset(int index) {
-        if (index >= stages.length)
+        if (index >= stages.length) {
             throw new IndexOutOfBoundsException();
+        }
         return stages[index].offset;
     }
 

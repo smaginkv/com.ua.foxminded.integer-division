@@ -8,11 +8,10 @@ import java.io.OutputStream;
 import ua.com.foxminded.division.exception.*;
 import ua.com.foxminded.division.injection.*;
 
-//не забыть зафигачить тесты
-//read me с картинками
 public class Main {
     private static int dividend;
     private static int divisor;
+
     public static void main(String[] args) {
         System.out.println("Hello, welcome to application \"integer division\"!");
 
@@ -48,15 +47,15 @@ public class Main {
         writeDivisionResult(formatter, output);
     }
 
-    private static Formatter proccessArgs(String[] args)
-            throws DivisionNoSuchOptionExeption, DivisionInputException {     
-        
-        if (args.length < 2) 
+    private static Formatter proccessArgs(String[] args) throws DivisionNoSuchOptionExeption, DivisionInputException {
+
+        if (args.length < 2) {
             throw new DivisionInputException("Application expects two integer arguments!");
-        
+        }
+
         dividend = parseInt(args[0]);
         divisor = parseInt(args[1]);
-        
+
         return checkInput(args);
 
     }
@@ -68,41 +67,45 @@ public class Main {
             throw new DivisionInputException("Application expects integer arguments!");
         }
     }
-    
+
     private static Formatter checkInput(String[] args) {
         Context context = Context.getInstance();
         Formatter formatter;
-        
-        if (args.length > 2) 
-            formatter = chooseFormatter(args[2], context);
-        else
-            formatter = context.getFormatter(Format.CLASSIC);
 
-        if (args.length > 4)
+        if (args.length > 2) {
+            formatter = chooseFormatter(args[2], context);
+        } else {
+            formatter = context.getFormatter(Format.CLASSIC);
+        }
+
+        if (args.length > 4) {
             formatter.setFileName(args[4]);
-        else
-            formatter.setFileName("");       
+        } else {
+            formatter.setFileName("");
+        }
         return formatter;
     }
 
     private static Formatter chooseFormatter(String option, Context context) throws DivisionNoSuchOptionExeption {
-        if (option.equals("-j"))
+        if (option.equals("-j")) {
             return context.getFormatter(Format.JSON);
+        }
 
-        else if (option.equals("-x"))
-
+        else if (option.equals("-x")) {
             return context.getFormatter(Format.XML);
-        else if (option.equals("-h"))
+        }
 
+        else if (option.equals("-h")) {
             return context.getFormatter(Format.HTML);
-        else
+        } else {
             throw new DivisionNoSuchOptionExeption(option);
+        }
     }
 
     private static void writeDivisionResult(Formatter formatter, String output)
             throws FileNotFoundException, IOException {
+
         OutputStream outputStream = formatter.getOutputStream();
         outputStream.write(output.getBytes());
-
     }
 }
