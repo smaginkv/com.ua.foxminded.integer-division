@@ -72,7 +72,8 @@ public class Divider {
         offset = 0;
     }
 
-    private int nextDigit() {
+    //package access for the testing 
+    int nextDigit() {
         if (cursor == dividendDigits.length) {
             throw new IndexOutOfBoundsException();
         }

@@ -3,8 +3,6 @@ package ua.com.foxminded.division.text;
 import java.io.FileNotFoundException;
 import java.io.OutputStream;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
 import ua.com.foxminded.division.exception.DivisionFileNotSetException;
 import ua.com.foxminded.division.exception.DivisionInnerProccessingException;
 import ua.com.foxminded.division.math.Result;

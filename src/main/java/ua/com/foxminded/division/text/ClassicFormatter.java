@@ -1,6 +1,7 @@
 package ua.com.foxminded.division.text;
 
 import java.io.OutputStream;
+
 import ua.com.foxminded.division.math.Result;
 
 public class ClassicFormatter implements Formatter {
@@ -10,18 +11,14 @@ public class ClassicFormatter implements Formatter {
     private final String TEMPLATE_HEAD = "%%-%ds|%%d\n";
     private final String TEMPLATE_HEAD_DIVIDEND = "%%%dd";
 
-    private void setup(Result result) {
-        this.integralOffset = 0;
-
-        String stringDividended = String.valueOf(result.getDividend());
-        this.lengthDividended = stringDividended.length();
-    }
-
     public String format(Result result) {
-        setup(result);
         String output = "";
 
-        for (int i = 0; i <= result.getStagesNumber(); i++) {
+        String stringDividended = String.valueOf(result.getDividend());
+        lengthDividended = stringDividended.length();
+        integralOffset = 0;
+
+        for (int i = 0; i <= result.getStagesLength(); i++) {
             output += getOutput(result, i);
         }
         return output;
@@ -33,7 +30,7 @@ public class ClassicFormatter implements Formatter {
         if (step == 0) {
             output += getOutputHead(result, step);
         } else {
-            if (step != result.getStagesNumber()) {
+            if (step != result.getStagesLength()) {
                 output += getOutputBody(result, step);
             } else {
                 output += getOutputTail(result);
@@ -47,7 +44,7 @@ public class ClassicFormatter implements Formatter {
         formatHead = getFormatHead(lengthDividended);
         output = String.format(formatHead, result.getDividend(), result.getDivisor());
 
-        if (step == result.getStagesNumber()) {
+        if (step == result.getStagesLength()) {
             integralOffset += result.getRemaindOffset();
             output += String.format(formatHead, result.getRemainder(), result.getQuotient());
         } else {
@@ -77,15 +74,15 @@ public class ClassicFormatter implements Formatter {
         return String.format(getFormatBodyTail(lengthDividended), result.getRemainder());
     }
 
-    String getFormatBodyTail(int offset) {
+    private String getFormatBodyTail(int offset) {
         return String.format(TEMPLATE_BODY_TAIL, offset);
     }
 
-    String getFormatHeadDividend(int offset) {
+    private String getFormatHeadDividend(int offset) {
         return String.format(TEMPLATE_HEAD_DIVIDEND, offset);
     }
 
-    String getFormatHead(int offset) {
+    private String getFormatHead(int offset) {
         return String.format(TEMPLATE_HEAD, offset);
     }
 

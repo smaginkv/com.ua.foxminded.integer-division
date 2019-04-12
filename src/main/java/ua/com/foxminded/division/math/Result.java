@@ -1,6 +1,7 @@
 package ua.com.foxminded.division.math;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -69,7 +70,7 @@ public class Result {
         this.quotient = (dividendIsNegative != divisorIsNegative ? -quotient : quotient);
     }
 
-    public int getStagesNumber() {
+    public int getStagesLength() {
         return stages.length;
     }
 
