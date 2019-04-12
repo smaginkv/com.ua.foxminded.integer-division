@@ -1,18 +1,19 @@
 package ua.com.foxminded.division;
 
-import ua.com.foxminded.division.text.*;
-import ua.com.foxminded.division.math.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
-import ua.com.foxminded.division.exception.*;
-import ua.com.foxminded.division.injection.*;
+
+import ua.com.foxminded.division.exception.DivisionFileNotSetException;
+import ua.com.foxminded.division.exception.DivisionInnerProccessingException;
+import ua.com.foxminded.division.exception.DivisionInputException;
+import ua.com.foxminded.division.exception.DivisionNoSuchOptionExeption;
+import ua.com.foxminded.division.math.Divider;
+import ua.com.foxminded.division.math.Result;
+import ua.com.foxminded.division.text.Formatter;
 
 public class Main {
-    private static int dividend;
-    private static int divisor;
-
-    public static void main(String[] args) {
+    public static void main(String ... args) {
         System.out.println("Hello, welcome to application \"integer division\"!");
 
         try {
@@ -34,9 +35,13 @@ public class Main {
         }
     }
 
-    private static void proccessDivision(String[] args) throws DivisionFileNotSetException, FileNotFoundException,
+    //package for the testing access
+    static void proccessDivision(String... args) throws DivisionFileNotSetException, FileNotFoundException,
             IOException, DivisionNoSuchOptionExeption, DivisionInnerProccessingException, DivisionInputException {
-        Formatter formatter = proccessArgs(args);
+        
+        Formatter formatter = InputProcessing.getFormatter(args);
+        int dividend = InputProcessing.getDividend();
+        int divisor = InputProcessing.getDivisor();
 
         System.out.printf("Output format is: %s. Yours dividend is %d, divisor is %d!\n", formatter, dividend, divisor);
 
@@ -46,66 +51,12 @@ public class Main {
 
         writeDivisionResult(formatter, output);
     }
-
-    private static Formatter proccessArgs(String[] args) throws DivisionNoSuchOptionExeption, DivisionInputException {
-
-        if (args.length < 2) {
-            throw new DivisionInputException("Application expects two integer arguments!");
-        }
-
-        dividend = parseInt(args[0]);
-        divisor = parseInt(args[1]);
-
-        return checkInput(args);
-
-    }
-
-    private static int parseInt(String stringArgs) throws DivisionInputException {
-        try {
-            return Integer.parseInt(stringArgs);
-        } catch (NumberFormatException e) {
-            throw new DivisionInputException("Application expects integer arguments!");
-        }
-    }
-
-    private static Formatter checkInput(String[] args) {
-        Context context = Context.getInstance();
-        Formatter formatter;
-
-        if (args.length > 2) {
-            formatter = chooseFormatter(args[2], context);
-        } else {
-            formatter = context.getFormatter(Format.CLASSIC);
-        }
-
-        if (args.length > 4) {
-            formatter.setFileName(args[4]);
-        } else {
-            formatter.setFileName("");
-        }
-        return formatter;
-    }
-
-    private static Formatter chooseFormatter(String option, Context context) throws DivisionNoSuchOptionExeption {
-        if (option.equals("-j")) {
-            return context.getFormatter(Format.JSON);
-        }
-
-        else if (option.equals("-x")) {
-            return context.getFormatter(Format.XML);
-        }
-
-        else if (option.equals("-h")) {
-            return context.getFormatter(Format.HTML);
-        } else {
-            throw new DivisionNoSuchOptionExeption(option);
-        }
-    }
-
+    
     private static void writeDivisionResult(Formatter formatter, String output)
             throws FileNotFoundException, IOException {
 
-        OutputStream outputStream = formatter.getOutputStream();
-        outputStream.write(output.getBytes());
+        try (OutputStream outputStream = formatter.getOutputStream()) {
+            outputStream.write(output.getBytes());
+        }
     }
 }

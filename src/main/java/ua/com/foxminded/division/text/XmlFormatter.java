@@ -6,22 +6,15 @@ import java.io.OutputStream;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
+import lombok.Getter;
+import lombok.Setter;
 import ua.com.foxminded.division.exception.DivisionFileNotSetException;
 import ua.com.foxminded.division.exception.DivisionInnerProccessingException;
 import ua.com.foxminded.division.math.Result;
 
 public class XmlFormatter implements Formatter {
+    @Setter @Getter
     private String fileName;
-
-    @Override
-    public String getFileName() {
-        return fileName;
-    };
-
-    @Override
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    };
 
     public String format(Result result) throws DivisionFileNotSetException, DivisionInnerProccessingException {
         if (fileName == "") {

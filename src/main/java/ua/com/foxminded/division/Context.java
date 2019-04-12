@@ -1,6 +1,10 @@
-package ua.com.foxminded.division.injection;
+package ua.com.foxminded.division;
 
 import ua.com.foxminded.division.text.*;
+
+enum Format {
+    CLASSIC, JSON, XML, HTML, NON_INITIALIZED
+}
 
 public class Context {
     private static Context instance;
@@ -17,11 +21,7 @@ public class Context {
     }
 
     private static void initFormatter(Format format) {
-        if (format == Format.CLASSIC) {
-            if (classic == null) {
-                classic = new ClassicFormatter();
-            }
-        } else if (format == Format.XML) {
+        if (format == Format.XML) {
             if (xml == null) {
                 xml = new XmlFormatter();
             }
@@ -32,6 +32,10 @@ public class Context {
         } else if (format == Format.JSON) {
             if (json == null) {
                 json = new JsonFormatter();
+            }
+        } else {
+            if (classic == null) {
+                classic = new ClassicFormatter();
             }
         }
     }
