@@ -5,7 +5,7 @@ import ua.com.foxminded.division.exception.DivisionInputException;
 import ua.com.foxminded.division.exception.DivisionNoSuchOptionExeption;
 import ua.com.foxminded.division.text.Formatter;
 
-class InputProcessing {
+public class InputProcessing {
     @Getter
     private static int dividend;
     @Getter
