@@ -8,14 +8,14 @@ import ua.com.foxminded.division.exception.DivisionInnerProccessingException;
 import ua.com.foxminded.division.math.Result;
 
 public interface Formatter {
-    public default void setFileName(String fileName) {
+    default void setFileName(String fileName) {
     };
 
-    public default String getFileName() {
+    default String getFileName() {
         return "";
     };
 
-    public String format(Result result) throws DivisionFileNotSetException, DivisionInnerProccessingException;
+    String format(Result result) throws DivisionFileNotSetException, DivisionInnerProccessingException;
 
-    public OutputStream getOutputStream() throws FileNotFoundException;
+    OutputStream getOutputStream() throws FileNotFoundException;
 }

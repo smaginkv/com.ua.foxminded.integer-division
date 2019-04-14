@@ -9,6 +9,7 @@ import ua.com.foxminded.division.math.Result;
 
 public class JsonFormatter implements Formatter {
 
+    @Override
     public String format(Result result) throws DivisionInnerProccessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         String output = "";
@@ -27,6 +28,7 @@ public class JsonFormatter implements Formatter {
         return "JSON";
     }
 
+    @Override
     public OutputStream getOutputStream() {
         return System.out;
     }

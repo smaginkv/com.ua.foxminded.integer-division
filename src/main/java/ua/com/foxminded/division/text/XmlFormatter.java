@@ -16,6 +16,7 @@ public class XmlFormatter implements Formatter {
     @Setter @Getter
     private String fileName;
 
+    @Override
     public String format(Result result) throws DivisionFileNotSetException, DivisionInnerProccessingException {
         if (fileName == "") {
             throw new DivisionFileNotSetException();
@@ -36,6 +37,7 @@ public class XmlFormatter implements Formatter {
         return "XML";
     }
 
+    @Override
     public OutputStream getOutputStream() throws FileNotFoundException {
         return new FileOutputStream(fileName);
 

@@ -11,6 +11,7 @@ public class ClassicFormatter implements Formatter {
     private final String TEMPLATE_HEAD = "%%-%ds|%%d\n";
     private final String TEMPLATE_HEAD_DIVIDEND = "%%%dd";
 
+    @Override
     public String format(Result result) {
         String output = "";
 
@@ -91,6 +92,7 @@ public class ClassicFormatter implements Formatter {
         return "Classic";
     }
 
+    @Override
     public OutputStream getOutputStream() {
         return System.out;
     }

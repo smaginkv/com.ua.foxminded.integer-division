@@ -37,6 +37,7 @@ public class HtmlFormatter implements Formatter {
         this.integralOffset = lengthDivisor;
     }
 
+    @Override
     public String format(Result result) throws DivisionFileNotSetException, DivisionInnerProccessingException {
         setup(result);
         Mustache mustacheTemplate = getMustacheTemplate(MUSTACHE_TEMPLATE_NAME);
@@ -129,6 +130,7 @@ public class HtmlFormatter implements Formatter {
         return "HTML";
     }
 
+    @Override
     public OutputStream getOutputStream() throws FileNotFoundException {
         return new FileOutputStream(fileName);
     }
