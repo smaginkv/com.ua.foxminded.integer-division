@@ -2,11 +2,6 @@ package ua.com.foxminded.division.text;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -106,17 +101,7 @@ class JsonFormatterTest {
         @Test
         void shouldCorrectToString() {
             assertEquals("JSON", jsonFormatter.toString());
-        }
-        @Test
-        void shouldReturnPrintStream() throws IOException {
-            try (OutputStream outputStream = jsonFormatter.getOutputStream()) {
-                assertEquals(PrintStream.class, outputStream.getClass());
-            }
-            File file = new File(jsonFormatter.getFileName());
-            if (file.isFile()) {
-                file.delete();
-            }
-        }        
+        }     
     }
 
     @Nested

@@ -20,7 +20,7 @@ If you want to output a result in json format, you can use the "-j" option
 
 <small>Output in JSON format<p><br></small>
 
-If you are interested in HTML file, you can use the "-h" option with file name
+If you are interested in HTML file, you can use the "-h" option and if you want to output in file use special option "> filename"
 
     java -jar uberjar\integer-division.jar 1564 23 -h > index.html
 

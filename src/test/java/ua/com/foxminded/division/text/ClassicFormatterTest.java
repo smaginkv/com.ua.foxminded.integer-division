@@ -2,11 +2,6 @@ package ua.com.foxminded.division.text;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -100,16 +95,6 @@ class ClassicFormatterTest {
         @Test
         void shouldCorrectToString() {
             assertEquals("Classic", classicFormatter.toString());
-        }
-        @Test
-        void shouldReturnPrintStream() throws IOException {
-            try (OutputStream outputStream = classicFormatter.getOutputStream()) {
-                assertEquals(PrintStream.class, outputStream.getClass());
-            }
-            File file = new File(classicFormatter.getFileName());
-            if (file.isFile()) {
-                file.delete();
-            }
         }
     }
     

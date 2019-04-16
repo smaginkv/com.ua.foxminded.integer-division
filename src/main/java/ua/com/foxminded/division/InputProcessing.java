@@ -36,12 +36,6 @@ public class InputProcessing {
         } else {
             formatter = context.getFormatter(Format.CLASSIC);
         }
-
-        if (args.length > 4) {
-            formatter.setFileName(args[4]);
-        } else {
-            formatter.setFileName("");
-        }
         return formatter;
     }
 

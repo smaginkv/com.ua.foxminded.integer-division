@@ -1,8 +1,5 @@
 package ua.com.foxminded.division.text;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,26 +8,17 @@ import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheNotFoundException;
 
-import lombok.Getter;
-import lombok.Setter;
-import ua.com.foxminded.division.exception.DivisionFileNotSetException;
 import ua.com.foxminded.division.exception.DivisionInnerProccessingException;
 import ua.com.foxminded.division.math.Result;
 
 public class HtmlFormatter implements Formatter {
-    @Setter @Getter
-    private String fileName = "";
     private int integralOffset;
     private int lengthDivisor;
     private final String TEMPLATE_HEAD_2_LINE = "%d|%d\n";
     private final String TEMPLATE_BODY_TAIL = "%%%dd\n";
     private final String MUSTACHE_TEMPLATE_NAME = "template.mustache";
 
-    private void setup(Result result) throws DivisionFileNotSetException {
-
-        if (fileName == "") {
-            throw new DivisionFileNotSetException();
-        }
+    private void setup(Result result) {
 
         String stringDivisor = String.valueOf(result.getDivisor());
         this.lengthDivisor = stringDivisor.length() + 1;
@@ -38,7 +26,7 @@ public class HtmlFormatter implements Formatter {
     }
 
     @Override
-    public String format(Result result) throws DivisionFileNotSetException, DivisionInnerProccessingException {
+    public String format(Result result) throws DivisionInnerProccessingException {
         setup(result);
         Mustache mustacheTemplate = getMustacheTemplate(MUSTACHE_TEMPLATE_NAME);
 
@@ -128,10 +116,5 @@ public class HtmlFormatter implements Formatter {
     @Override
     public String toString() {
         return "HTML";
-    }
-
-    @Override
-    public OutputStream getOutputStream() throws FileNotFoundException {
-        return new FileOutputStream(fileName);
     }
 }

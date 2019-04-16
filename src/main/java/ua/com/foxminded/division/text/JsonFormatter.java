@@ -1,6 +1,5 @@
 package ua.com.foxminded.division.text;
 
-import java.io.OutputStream;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -26,10 +25,5 @@ public class JsonFormatter implements Formatter {
     @Override
     public String toString() {
         return "JSON";
-    }
-
-    @Override
-    public OutputStream getOutputStream() {
-        return System.out;
     }
 }

@@ -1,20 +1,12 @@
 package ua.com.foxminded.division.text;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import ua.com.foxminded.division.exception.DivisionFileNotSetException;
 import ua.com.foxminded.division.math.Result;
 
 class XmlFormatterTest {
@@ -26,7 +18,6 @@ class XmlFormatterTest {
     @BeforeEach
     void setup(){
         xmlFormatter = new XmlFormatter();
-        xmlFormatter.setFileName("someFilePath");
         inputResult = new Result();
     }
 
@@ -111,34 +102,7 @@ class XmlFormatterTest {
         void shouldCorrectToString() {
             assertEquals("XML", xmlFormatter.toString());
         }
-
-        @Test
-        void shouldReturnFileOutputStreamWhenHtmlFormatter() throws IOException {
-            try (OutputStream outputStream = xmlFormatter.getOutputStream()) {
-                assertEquals(FileOutputStream.class, outputStream.getClass());
-            }
-            File file = new File(xmlFormatter.getFileName());
-            if (file.isFile()) {
-                file.delete();
-            }
-        }
-    }
-    
-    @Nested
-    @DisplayName("Strategy: error path ")
-    class ErrorPath {
-        @Test
-        void shouldThrowExceptionWhenFileNameNotSet(){
-            xmlFormatter.setFileName("");
-            assertThrows(FileNotFoundException.class, ()->xmlFormatter.getOutputStream());
-        }
-        
-        @Test
-        void shouldFormatThrowExceptionWhenFileNameNotSet(){
-            xmlFormatter.setFileName("");
-            assertThrows(DivisionFileNotSetException.class, ()->xmlFormatter.format(inputResult));
-        }
-    }
+    }    
 
     @Nested
     @DisplayName("Strategy: corner cases ")

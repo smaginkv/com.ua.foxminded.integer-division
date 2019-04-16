@@ -3,18 +3,11 @@ package ua.com.foxminded.division.text;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import ua.com.foxminded.division.exception.DivisionFileNotSetException;
 import ua.com.foxminded.division.exception.DivisionInnerProccessingException;
 import ua.com.foxminded.division.math.Result;
 
@@ -27,7 +20,6 @@ class HtmlFormatterTest {
     @BeforeEach
     void setup() {
         htmlFormatter = new HtmlFormatter();
-        htmlFormatter.setFileName("someFilePath");
         inputResult = new Result();
     }
 
@@ -112,17 +104,6 @@ class HtmlFormatterTest {
         void shouldCorrectToString() {
             assertEquals("HTML", htmlFormatter.toString());
         }
-
-        @Test
-        void shouldReturnFileOutputStream() throws IOException {
-            try (OutputStream outputStream = htmlFormatter.getOutputStream()) {
-                assertEquals(FileOutputStream.class, outputStream.getClass());
-            }
-            File file = new File(htmlFormatter.getFileName());
-            if (file.isFile()) {
-                file.delete();
-            }
-        }
     }
 
     @Nested
@@ -131,18 +112,6 @@ class HtmlFormatterTest {
         @Test
         void shouldThrowExceptionWhenIncorrectHtmlTemplate() {
             assertThrows(DivisionInnerProccessingException.class, ()->htmlFormatter.getMustacheTemplate("1.mustache"));
-        }
-
-        @Test
-        void shouldThrowExceptionWhenFileNameNotSet() {
-            htmlFormatter.setFileName("");
-            assertThrows(FileNotFoundException.class, ()->htmlFormatter.getOutputStream());
-        }
-
-        @Test
-        void shouldFormatThrowExceptionWhenFileNameNotSet() {
-            htmlFormatter.setFileName("");
-            assertThrows(DivisionFileNotSetException.class, ()->htmlFormatter.format(inputResult));
         }
     }
 

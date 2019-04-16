@@ -1,7 +1,5 @@
 package ua.com.foxminded.division.text;
 
-import java.io.OutputStream;
-
 import ua.com.foxminded.division.math.Result;
 
 public class ClassicFormatter implements Formatter {
@@ -91,10 +89,4 @@ public class ClassicFormatter implements Formatter {
     public String toString() {
         return "Classic";
     }
-
-    @Override
-    public OutputStream getOutputStream() {
-        return System.out;
-    }
-
 }
