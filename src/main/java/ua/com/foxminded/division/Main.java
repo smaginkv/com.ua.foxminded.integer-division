@@ -1,5 +1,7 @@
 package ua.com.foxminded.division;
 
+import java.awt.Desktop;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -51,12 +53,17 @@ public class Main {
 
         writeDivisionResult(formatter, output);
     }
-    
     private static void writeDivisionResult(Formatter formatter, String output)
             throws FileNotFoundException, IOException {
 
         try (OutputStream outputStream = formatter.getOutputStream()) {
             outputStream.write(output.getBytes());
+        }
+        //Open created file
+        String outputFileName = formatter.getFileName();
+        File outputFile = new File(outputFileName);
+        if( outputFile.exists() && outputFile.isFile()) {
+            Desktop.getDesktop().open(outputFile); 
         }
     }
 }

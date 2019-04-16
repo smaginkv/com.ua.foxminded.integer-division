@@ -114,7 +114,7 @@ class HtmlFormatterTest {
         }
 
         @Test
-        void shouldReturnFileOutputStreamWhenHtmlFormatter() throws IOException {
+        void shouldReturnFileOutputStream() throws IOException {
             try (OutputStream outputStream = htmlFormatter.getOutputStream()) {
                 assertEquals(FileOutputStream.class, outputStream.getClass());
             }

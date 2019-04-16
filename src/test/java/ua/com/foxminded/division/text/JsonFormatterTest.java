@@ -2,6 +2,11 @@ package ua.com.foxminded.division.text;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -38,7 +43,7 @@ class JsonFormatterTest {
             inputResult.addStage(185, 184, 1);
             inputResult.setRemaindOffset(0);
 
-            expectedResult = "{\r\n  \"dividend\" : 1565,\r\n  \"divisor\" : 23,\r\n  \"quotient\" : 68,\r\n  \"remainder\" : 1,\r\n  \"stages\" : [ {\r\n    \"partialDividend\" : 156,\r\n    \"partialDividendWithoutRemainder\" : 138\r\n  }, {\r\n    \"partialDividend\" : 185,\r\n    \"partialDividendWithoutRemainder\" : 184\r\n  } ],\r\n  \"stagesLength\" : 2\r\n}";   
+            expectedResult = "{\r\n  \"dividend\" : 1565,\r\n  \"divisor\" : 23,\r\n  \"quotient\" : 68,\r\n  \"remainder\" : 1,\r\n  \"stages\" : [ {\r\n    \"partialDividend\" : 156,\r\n    \"partialQuotient\" : 138\r\n  }, {\r\n    \"partialDividend\" : 185,\r\n    \"partialQuotient\" : 184\r\n  } ],\r\n  \"stagesLength\" : 2\r\n}";   
             assertEquals(expectedResult, jsonFormatter.format(inputResult));
         }
 
@@ -55,7 +60,7 @@ class JsonFormatterTest {
             inputResult.addStage(1564, 1252, 4);
             inputResult.setRemaindOffset(0);
 
-            expectedResult = "{\r\n  \"dividend\" : -1564,\r\n  \"divisor\" : 313,\r\n  \"quotient\" : -4,\r\n  \"remainder\" : -312,\r\n  \"stages\" : [ {\r\n    \"partialDividend\" : -1564,\r\n    \"partialDividendWithoutRemainder\" : -1252\r\n  } ],\r\n  \"stagesLength\" : 1\r\n}";   
+            expectedResult = "{\r\n  \"dividend\" : -1564,\r\n  \"divisor\" : 313,\r\n  \"quotient\" : -4,\r\n  \"remainder\" : -312,\r\n  \"stages\" : [ {\r\n    \"partialDividend\" : -1564,\r\n    \"partialQuotient\" : -1252\r\n  } ],\r\n  \"stagesLength\" : 1\r\n}";   
             assertEquals(expectedResult, jsonFormatter.format(inputResult));
         }
 
@@ -74,7 +79,7 @@ class JsonFormatterTest {
             inputResult.addStage(4, 3, 1);
             inputResult.setRemaindOffset(0);
 
-            expectedResult = "{\r\n  \"dividend\" : 1564,\r\n  \"divisor\" : -3,\r\n  \"quotient\" : -521,\r\n  \"remainder\" : 1,\r\n  \"stages\" : [ {\r\n    \"partialDividend\" : 15,\r\n    \"partialDividendWithoutRemainder\" : 15\r\n  }, {\r\n    \"partialDividend\" : 6,\r\n    \"partialDividendWithoutRemainder\" : 6\r\n  }, {\r\n    \"partialDividend\" : 4,\r\n    \"partialDividendWithoutRemainder\" : 3\r\n  } ],\r\n  \"stagesLength\" : 3\r\n}";  
+            expectedResult = "{\r\n  \"dividend\" : 1564,\r\n  \"divisor\" : -3,\r\n  \"quotient\" : -521,\r\n  \"remainder\" : 1,\r\n  \"stages\" : [ {\r\n    \"partialDividend\" : 15,\r\n    \"partialQuotient\" : 15\r\n  }, {\r\n    \"partialDividend\" : 6,\r\n    \"partialQuotient\" : 6\r\n  }, {\r\n    \"partialDividend\" : 4,\r\n    \"partialQuotient\" : 3\r\n  } ],\r\n  \"stagesLength\" : 3\r\n}";  
             assertEquals(expectedResult, jsonFormatter.format(inputResult));
         }
 
@@ -94,7 +99,7 @@ class JsonFormatterTest {
             inputResult.addStage(4, 4, 1);
             inputResult.setRemaindOffset(0);
 
-            expectedResult = "{\r\n  \"dividend\" : -1564,\r\n  \"divisor\" : -1,\r\n  \"quotient\" : 1564,\r\n  \"remainder\" : 0,\r\n  \"stages\" : [ {\r\n    \"partialDividend\" : -1,\r\n    \"partialDividendWithoutRemainder\" : -1\r\n  }, {\r\n    \"partialDividend\" : -5,\r\n    \"partialDividendWithoutRemainder\" : -5\r\n  }, {\r\n    \"partialDividend\" : -6,\r\n    \"partialDividendWithoutRemainder\" : -6\r\n  }, {\r\n    \"partialDividend\" : -4,\r\n    \"partialDividendWithoutRemainder\" : -4\r\n  } ],\r\n  \"stagesLength\" : 4\r\n}";  
+            expectedResult = "{\r\n  \"dividend\" : -1564,\r\n  \"divisor\" : -1,\r\n  \"quotient\" : 1564,\r\n  \"remainder\" : 0,\r\n  \"stages\" : [ {\r\n    \"partialDividend\" : -1,\r\n    \"partialQuotient\" : -1\r\n  }, {\r\n    \"partialDividend\" : -5,\r\n    \"partialQuotient\" : -5\r\n  }, {\r\n    \"partialDividend\" : -6,\r\n    \"partialQuotient\" : -6\r\n  }, {\r\n    \"partialDividend\" : -4,\r\n    \"partialQuotient\" : -4\r\n  } ],\r\n  \"stagesLength\" : 4\r\n}";  
             assertEquals(expectedResult, jsonFormatter.format(inputResult));
         }
 
@@ -102,6 +107,16 @@ class JsonFormatterTest {
         void shouldCorrectToString() {
             assertEquals("JSON", jsonFormatter.toString());
         }
+        @Test
+        void shouldReturnPrintStream() throws IOException {
+            try (OutputStream outputStream = jsonFormatter.getOutputStream()) {
+                assertEquals(PrintStream.class, outputStream.getClass());
+            }
+            File file = new File(jsonFormatter.getFileName());
+            if (file.isFile()) {
+                file.delete();
+            }
+        }        
     }
 
     @Nested
@@ -120,7 +135,7 @@ class JsonFormatterTest {
             inputResult.addStage(1564, 1313, 4);
             inputResult.setRemaindOffset(0);
 
-            expectedResult = "{\r\n  \"dividend\" : 1564,\r\n  \"divisor\" : 1313,\r\n  \"quotient\" : 1,\r\n  \"remainder\" : 251,\r\n  \"stages\" : [ {\r\n    \"partialDividend\" : 1564,\r\n    \"partialDividendWithoutRemainder\" : 1313\r\n  } ],\r\n  \"stagesLength\" : 1\r\n}";   
+            expectedResult = "{\r\n  \"dividend\" : 1564,\r\n  \"divisor\" : 1313,\r\n  \"quotient\" : 1,\r\n  \"remainder\" : 251,\r\n  \"stages\" : [ {\r\n    \"partialDividend\" : 1564,\r\n    \"partialQuotient\" : 1313\r\n  } ],\r\n  \"stagesLength\" : 1\r\n}";   
             assertEquals(expectedResult, jsonFormatter.format(inputResult));
         }
 

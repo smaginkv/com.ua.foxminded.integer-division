@@ -3,10 +3,10 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>ua.com.foxminded</groupId>
-    <artifactId>integer_division</artifactId>
+    <artifactId>integer-division</artifactId>
     <packaging>jar</packaging>
     <version>0.0.1-SNAPSHOT</version>
-    <name>integer_division</name>
+    <name>integer-division</name>
     <properties>
         <project.uberjar.outputDirectory>uberjar</project.uberjar.outputDirectory>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -115,12 +115,6 @@
                             <outputDirectory>${project.uberjar.outputDirectory}</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${project.build.outputDirectory}</directory>
-                                    <includes>
-                                        <include>run.bat</include>
-                                    </includes>
-                                </resource>
-                                <resource>
                                     <directory>${project.build.directory}</directory>
                                     <includes>
                                         <include>${pom.name}.jar</include>
@@ -132,7 +126,6 @@
                 </executions>
             </plugin>
         </plugins>
-
     </build>
     <repositories>
         <repository>
@@ -140,5 +133,4 @@
             <url>http://projectlombok.org/mavenrepo</url>
         </repository>
     </repositories>
-
 </project>

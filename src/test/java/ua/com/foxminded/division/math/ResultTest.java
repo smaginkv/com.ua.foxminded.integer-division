@@ -45,8 +45,8 @@ class ResultTest {
         }
 
         @Test
-        void shoulGetPartialDividendWithoutRemainderWhenNonEmpty() {
-            assertEquals(2, result.getPartialDividendWithoutRemainder(0));
+        void shoulGetPartialQuotientWhenNonEmpty() {
+            assertEquals(2, result.getPartialQuotient(0));
         }
 
         @Test
@@ -57,7 +57,7 @@ class ResultTest {
         @Test
         void shoulGetCorrectToStringWhenNonEmpty() {
             assertEquals(
-                    "Result(dividend=0, divisor=0, quotient=0, remainder=0, dividendIsNegative=false, divisorIsNegative=false, remaindOffset=0, stages=[Result.Stage(partialDividend=3, partialDividendWithoutRemainder=2, offset=1)])",
+                    "Result(dividend=0, divisor=0, quotient=0, remainder=0, dividendIsNegative=false, divisorIsNegative=false, remaindOffset=0, stages=[Result.Stage(partialDividend=3, partialQuotient=2, offset=1)])",
                     result.toString());
         }
 
@@ -87,9 +87,9 @@ class ResultTest {
         }
 
         @Test
-        void shouldThrowExceptionWhenPartialDividendWithoutRemainderEmpty() {
+        void shouldThrowExceptionWhenPartialQuotientEmpty() {
             result.clearStages();
-            assertThrows(IndexOutOfBoundsException.class, () -> result.getPartialDividendWithoutRemainder(0));
+            assertThrows(IndexOutOfBoundsException.class, () -> result.getPartialQuotient(0));
         }
 
         @Test

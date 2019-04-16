@@ -1,17 +1,40 @@
 package ua.com.foxminded.division;
 
-import ua.com.foxminded.division.text.*;
+import java.util.HashMap;
+
+import ua.com.foxminded.division.text.ClassicFormatter;
+import ua.com.foxminded.division.text.Formatter;
+import ua.com.foxminded.division.text.HtmlFormatter;
+import ua.com.foxminded.division.text.JsonFormatter;
+import ua.com.foxminded.division.text.XmlFormatter;
 
 enum Format {
-    CLASSIC, JSON, XML, HTML, NON_INITIALIZED
+    CLASSIC {
+        public Formatter getInstanceFormatter() {
+            return new ClassicFormatter();
+        }
+    },
+    JSON {
+        public Formatter getInstanceFormatter() {
+            return new JsonFormatter();
+        }
+    },
+    XML {
+        public Formatter getInstanceFormatter() {
+            return new XmlFormatter();
+        }
+    },
+    HTML {
+        public Formatter getInstanceFormatter() {
+            return new HtmlFormatter();
+        }
+    };
+    public abstract Formatter getInstanceFormatter();
 }
 
 public class Context {
     private static Context instance;
-    private static Formatter classic;
-    private static Formatter json;
-    private static Formatter xml;
-    private static Formatter html;
+    private static HashMap<Format, Formatter> formatters = new HashMap<>();
 
     public static Context getInstance() {
         if (instance == null) {
@@ -20,37 +43,12 @@ public class Context {
         return instance;
     }
 
-    private static void initFormatter(Format format) {
-        if (format == Format.XML) {
-            if (xml == null) {
-                xml = new XmlFormatter();
-            }
-        } else if (format == Format.HTML) {
-            if (html == null) {
-                html = new HtmlFormatter();
-            }
-        } else if (format == Format.JSON) {
-            if (json == null) {
-                json = new JsonFormatter();
-            }
-        } else {
-            if (classic == null) {
-                classic = new ClassicFormatter();
-            }
-        }
-    }
-
     public Formatter getFormatter(Format format) {
-        initFormatter(format);
-        if (format == Format.CLASSIC) {
-            return classic;
-        } else if (format == Format.JSON) {
-            return json;
-        } else if (format == Format.HTML) {
-            return html;
-        } else if (format == Format.XML) {
-            return xml;
+        Formatter formatter = formatters.get(format);
+        if (formatter == null) {
+            formatter = format.getInstanceFormatter();
+            formatters.put(format, formatter);
         }
-        return classic;
+        return formatter;
     }
 }

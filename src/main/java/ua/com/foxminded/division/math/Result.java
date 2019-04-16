@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode
+@lombok.Generated
 public class Result {
     private int dividend;
     private int divisor;
@@ -21,15 +22,16 @@ public class Result {
     private Stage[] stages = new Stage[0];
 
     @Data
+    @lombok.Generated
     private class Stage {
         private int partialDividend;
-        private int partialDividendWithoutRemainder;
+        private int partialQuotient;
         @JsonIgnore
         private int offset;
 
-        public Stage(int partialDividend, int partialDividendWithoutRemainder, int offset) {
+        public Stage(int partialDividend, int partialQuotient, int offset) {
             this.partialDividend = partialDividend;
-            this.partialDividendWithoutRemainder = partialDividendWithoutRemainder;
+            this.partialQuotient = partialQuotient;
             this.offset = offset;
         }
     }
@@ -38,10 +40,10 @@ public class Result {
         stages = new Stage[0];
     }
 
-    public void addStage(int partialDividend, int partialDividendWithoutRemainder, int offset) {
+    public void addStage(int partialDividend, int partialQuotient, int offset) {
         if (dividendIsNegative == true) {
             partialDividend = -partialDividend;
-            partialDividendWithoutRemainder = -partialDividendWithoutRemainder;
+            partialQuotient = -partialQuotient;
             if (stages.length == 0) {
                 offset++;// for sign '-'
             }
@@ -51,7 +53,7 @@ public class Result {
         for (int i = 0; i < stages.length; i++) {
             tempStages[i] = stages[i];
         }
-        tempStages[stages.length] = new Stage(partialDividend, partialDividendWithoutRemainder, offset);
+        tempStages[stages.length] = new Stage(partialDividend, partialQuotient, offset);
         stages = tempStages;
     }
 
@@ -81,11 +83,11 @@ public class Result {
         return stages[index].partialDividend;
     }
 
-    public int getPartialDividendWithoutRemainder(int index) {
+    public int getPartialQuotient(int index) {
         if (index >= stages.length) {
             throw new IndexOutOfBoundsException();
         }
-        return stages[index].partialDividendWithoutRemainder;
+        return stages[index].partialQuotient;
     }
 
     public int getStageOffset(int index) {

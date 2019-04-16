@@ -48,9 +48,4 @@ class ContextTest {
         Formatter formatter = context.getFormatter(Format.XML);
         assertEquals(XmlFormatter.class, formatter.getClass());
     }
-    @Test
-    void shouldContextReturnClassicFormatterWhenNull() {
-        Formatter formatter = context.getFormatter(Format.NON_INITIALIZED);
-        assertEquals(ClassicFormatter.class, formatter.getClass());
-    }
 }

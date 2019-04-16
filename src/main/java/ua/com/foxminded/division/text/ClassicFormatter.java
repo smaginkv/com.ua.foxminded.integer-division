@@ -53,7 +53,7 @@ public class ClassicFormatter implements Formatter {
 
             // Add same format as a body, but with quotients appendix on right side
             formatHeadDividend = getFormatHeadDividend(integralOffset);
-            partialDividend = String.format(formatHeadDividend, result.getPartialDividendWithoutRemainder(step));
+            partialDividend = String.format(formatHeadDividend, result.getPartialQuotient(step));
 
             output += String.format(formatHead, partialDividend, result.getQuotient());
         }
@@ -67,7 +67,7 @@ public class ClassicFormatter implements Formatter {
 
         formatBodyTail = getFormatBodyTail(integralOffset);
         output = String.format(formatBodyTail, result.getPartialDividend(step));
-        output += String.format(formatBodyTail, result.getPartialDividendWithoutRemainder(step));
+        output += String.format(formatBodyTail, result.getPartialQuotient(step));
         return output;
     }
 

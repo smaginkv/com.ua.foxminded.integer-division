@@ -112,7 +112,7 @@ public class HtmlFormatter implements Formatter {
             output = String.format(formatBodyTail, result.getPartialDividend(step));
         }
 
-        output += String.format(formatBodyTail, result.getPartialDividendWithoutRemainder(step));
+        output += String.format(formatBodyTail, result.getPartialQuotient(step));
         return output;
     }
 

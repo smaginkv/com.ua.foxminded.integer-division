@@ -47,7 +47,7 @@ class XmlFormatterTest {
             inputResult.addStage(185, 184, 1);
             inputResult.setRemaindOffset(0);
 
-            expectedResult = "<Result>\r\n  <dividend>1565</dividend>\r\n  <divisor>23</divisor>\r\n  <quotient>68</quotient>\r\n  <remainder>1</remainder>\r\n  <stages>\r\n    <stages>\r\n      <partialDividend>156</partialDividend>\r\n      <partialDividendWithoutRemainder>138</partialDividendWithoutRemainder>\r\n    </stages>\r\n    <stages>\r\n      <partialDividend>185</partialDividend>\r\n      <partialDividendWithoutRemainder>184</partialDividendWithoutRemainder>\r\n    </stages>\r\n  </stages>\r\n  <stagesLength>2</stagesLength>\r\n</Result>\r\n";   
+            expectedResult = "<Result>\r\n  <dividend>1565</dividend>\r\n  <divisor>23</divisor>\r\n  <quotient>68</quotient>\r\n  <remainder>1</remainder>\r\n  <stages>\r\n    <stages>\r\n      <partialDividend>156</partialDividend>\r\n      <partialQuotient>138</partialQuotient>\r\n    </stages>\r\n    <stages>\r\n      <partialDividend>185</partialDividend>\r\n      <partialQuotient>184</partialQuotient>\r\n    </stages>\r\n  </stages>\r\n  <stagesLength>2</stagesLength>\r\n</Result>\r\n";   
             assertEquals(expectedResult, xmlFormatter.format(inputResult));
         }
 
@@ -64,7 +64,7 @@ class XmlFormatterTest {
             inputResult.addStage(1564, 1252, 4);
             inputResult.setRemaindOffset(0);
 
-            expectedResult = "<Result>\r\n  <dividend>-1564</dividend>\r\n  <divisor>313</divisor>\r\n  <quotient>-4</quotient>\r\n  <remainder>-312</remainder>\r\n  <stages>\r\n    <stages>\r\n      <partialDividend>-1564</partialDividend>\r\n      <partialDividendWithoutRemainder>-1252</partialDividendWithoutRemainder>\r\n    </stages>\r\n  </stages>\r\n  <stagesLength>1</stagesLength>\r\n</Result>\r\n";   
+            expectedResult = "<Result>\r\n  <dividend>-1564</dividend>\r\n  <divisor>313</divisor>\r\n  <quotient>-4</quotient>\r\n  <remainder>-312</remainder>\r\n  <stages>\r\n    <stages>\r\n      <partialDividend>-1564</partialDividend>\r\n      <partialQuotient>-1252</partialQuotient>\r\n    </stages>\r\n  </stages>\r\n  <stagesLength>1</stagesLength>\r\n</Result>\r\n";   
             assertEquals(expectedResult, xmlFormatter.format(inputResult));
         }
 
@@ -83,7 +83,7 @@ class XmlFormatterTest {
             inputResult.addStage(4, 3, 1);
             inputResult.setRemaindOffset(0);
 
-            expectedResult = "<Result>\r\n  <dividend>1564</dividend>\r\n  <divisor>-3</divisor>\r\n  <quotient>-521</quotient>\r\n  <remainder>1</remainder>\r\n  <stages>\r\n    <stages>\r\n      <partialDividend>15</partialDividend>\r\n      <partialDividendWithoutRemainder>15</partialDividendWithoutRemainder>\r\n    </stages>\r\n    <stages>\r\n      <partialDividend>6</partialDividend>\r\n      <partialDividendWithoutRemainder>6</partialDividendWithoutRemainder>\r\n    </stages>\r\n    <stages>\r\n      <partialDividend>4</partialDividend>\r\n      <partialDividendWithoutRemainder>3</partialDividendWithoutRemainder>\r\n    </stages>\r\n  </stages>\r\n  <stagesLength>3</stagesLength>\r\n</Result>\r\n";  
+            expectedResult = "<Result>\r\n  <dividend>1564</dividend>\r\n  <divisor>-3</divisor>\r\n  <quotient>-521</quotient>\r\n  <remainder>1</remainder>\r\n  <stages>\r\n    <stages>\r\n      <partialDividend>15</partialDividend>\r\n      <partialQuotient>15</partialQuotient>\r\n    </stages>\r\n    <stages>\r\n      <partialDividend>6</partialDividend>\r\n      <partialQuotient>6</partialQuotient>\r\n    </stages>\r\n    <stages>\r\n      <partialDividend>4</partialDividend>\r\n      <partialQuotient>3</partialQuotient>\r\n    </stages>\r\n  </stages>\r\n  <stagesLength>3</stagesLength>\r\n</Result>\r\n";  
             assertEquals(expectedResult, xmlFormatter.format(inputResult));
         }
 
@@ -103,7 +103,7 @@ class XmlFormatterTest {
             inputResult.addStage(4, 4, 1);
             inputResult.setRemaindOffset(0);
 
-            expectedResult = "<Result>\r\n  <dividend>-1564</dividend>\r\n  <divisor>-1</divisor>\r\n  <quotient>1564</quotient>\r\n  <remainder>0</remainder>\r\n  <stages>\r\n    <stages>\r\n      <partialDividend>-1</partialDividend>\r\n      <partialDividendWithoutRemainder>-1</partialDividendWithoutRemainder>\r\n    </stages>\r\n    <stages>\r\n      <partialDividend>-5</partialDividend>\r\n      <partialDividendWithoutRemainder>-5</partialDividendWithoutRemainder>\r\n    </stages>\r\n    <stages>\r\n      <partialDividend>-6</partialDividend>\r\n      <partialDividendWithoutRemainder>-6</partialDividendWithoutRemainder>\r\n    </stages>\r\n    <stages>\r\n      <partialDividend>-4</partialDividend>\r\n      <partialDividendWithoutRemainder>-4</partialDividendWithoutRemainder>\r\n    </stages>\r\n  </stages>\r\n  <stagesLength>4</stagesLength>\r\n</Result>\r\n";  
+            expectedResult = "<Result>\r\n  <dividend>-1564</dividend>\r\n  <divisor>-1</divisor>\r\n  <quotient>1564</quotient>\r\n  <remainder>0</remainder>\r\n  <stages>\r\n    <stages>\r\n      <partialDividend>-1</partialDividend>\r\n      <partialQuotient>-1</partialQuotient>\r\n    </stages>\r\n    <stages>\r\n      <partialDividend>-5</partialDividend>\r\n      <partialQuotient>-5</partialQuotient>\r\n    </stages>\r\n    <stages>\r\n      <partialDividend>-6</partialDividend>\r\n      <partialQuotient>-6</partialQuotient>\r\n    </stages>\r\n    <stages>\r\n      <partialDividend>-4</partialDividend>\r\n      <partialQuotient>-4</partialQuotient>\r\n    </stages>\r\n  </stages>\r\n  <stagesLength>4</stagesLength>\r\n</Result>\r\n";  
             assertEquals(expectedResult, xmlFormatter.format(inputResult));
         }
 
@@ -156,7 +156,7 @@ class XmlFormatterTest {
             inputResult.addStage(1564, 1313, 4);
             inputResult.setRemaindOffset(0);
 
-            expectedResult = "<Result>\r\n  <dividend>1564</dividend>\r\n  <divisor>1313</divisor>\r\n  <quotient>1</quotient>\r\n  <remainder>251</remainder>\r\n  <stages>\r\n    <stages>\r\n      <partialDividend>1564</partialDividend>\r\n      <partialDividendWithoutRemainder>1313</partialDividendWithoutRemainder>\r\n    </stages>\r\n  </stages>\r\n  <stagesLength>1</stagesLength>\r\n</Result>\r\n";   
+            expectedResult = "<Result>\r\n  <dividend>1564</dividend>\r\n  <divisor>1313</divisor>\r\n  <quotient>1</quotient>\r\n  <remainder>251</remainder>\r\n  <stages>\r\n    <stages>\r\n      <partialDividend>1564</partialDividend>\r\n      <partialQuotient>1313</partialQuotient>\r\n    </stages>\r\n  </stages>\r\n  <stagesLength>1</stagesLength>\r\n</Result>\r\n";   
             assertEquals(expectedResult, xmlFormatter.format(inputResult));
         }
 
