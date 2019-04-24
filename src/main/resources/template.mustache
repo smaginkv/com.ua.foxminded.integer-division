@@ -7,7 +7,7 @@
 body {
     border-collapse: collapse;
     font-family: "Courier New", Courier, monospace;
-    font-size:32px;
+    font-size:24px;
     white-space: pre;
 }
 .block {
@@ -21,32 +21,34 @@ body {
 }
 
 .block__element {
-    width: 32px;
+    width: 24px;
     text-align: center;
 }
 
-#target1:hover ~ #source1Green{
+{{#Steps}}
+#target{{value}}:hover ~ .GREEN{{value}}{
     color: green;
     font-weight: 600;
 }
 
-#target1:hover ~ #source1Blue{
+#target{{value}}:hover ~ .BLUE{{value}}{
     color: blue;
     font-weight: 600;
 }
 
-#target1:hover ~ #source1Violet{
+#target{{value}}:hover ~ .VIOLET{{value}}{
     color: violet;
     font-weight: 600;
 }
+{{/Steps}}
    
 </style>
 </head>
 <body>
-    <p>British notation:</p>
+    <strong>British notation:</strong>
     <div class="block">
-        {{#digitsArray}}
-            <div class="block__element" {{id_element}}>{{value}}</div>
+        {{#digitsArray}}       
+            <div class="block__element{{color}}{{stage}}"{{^idEmpty}} id = "target{{id}}"{{/idEmpty}}>{{value}}</div>
         {{/digitsArray}}
     </div>
 </body>

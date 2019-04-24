@@ -67,3 +67,4 @@ local.properties
 *.launch
 /.project
 /.classpath
+/index.html

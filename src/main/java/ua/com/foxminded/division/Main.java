@@ -9,7 +9,7 @@ import ua.com.foxminded.division.text.Formatter;
 
 public class Main {
     public static void main(String... args) {
-        System.out.println("Hello, welcome to application \"integer division\"!");
+        System.err.println("Hello, welcome to application \"integer division\"!");
 
         try {
             proccessDivision(args);
@@ -31,7 +31,7 @@ public class Main {
         int dividend = InputProcessing.getDividend();
         int divisor = InputProcessing.getDivisor();
 
-        System.out.printf("Output format is: %s. Yours dividend is %d, divisor is %d!\n", formatter, dividend, divisor);
+        System.err.printf("Output format is: %s. Yours dividend is %d, divisor is %d!\n", formatter, dividend, divisor);
 
         Divider divider = new Divider();
         Result result = divider.divide(dividend, divisor);
