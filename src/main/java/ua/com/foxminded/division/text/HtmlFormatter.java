@@ -1,6 +1,9 @@
 package ua.com.foxminded.division.text;
 
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,42 +11,51 @@ import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheNotFoundException;
 
+import lombok.Getter;
 import ua.com.foxminded.division.exception.DivisionInnerProccessingException;
 import ua.com.foxminded.division.math.Result;
 
 public class HtmlFormatter implements Formatter {
     private int integralOffset;
     private int lengthDivisor;
-    private final String TEMPLATE_HEAD_2_LINE = "%d|%d\n";
-    private final String TEMPLATE_BODY_TAIL = "%%%dd\n";
+    private int lengthDividend;
+    private final String TEMPLATE_HEAD_2_LINE = "%d|%d";
+    private final String TEMPLATE_BODY_TAIL = "%%%dd";
     private final String MUSTACHE_TEMPLATE_NAME = "template.mustache";
 
     private void setup(Result result) {
 
-        String stringDivisor = String.valueOf(result.getDivisor());
-        this.lengthDivisor = stringDivisor.length() + 1;
-        this.integralOffset = lengthDivisor;
+        lengthDivisor = stringLength(result.getDivisor()) + 1;
+        lengthDividend = stringLength(result.getDividend()) + 1;
+        integralOffset = lengthDivisor;
     }
 
     @Override
     public String format(Result result) throws DivisionInnerProccessingException {
         setup(result);
-        Mustache mustacheTemplate = getMustacheTemplate(MUSTACHE_TEMPLATE_NAME);
+        Mustache mustacheTemplate = getMustacheTemplate(MUSTACHE_TEMPLATE_NAME);        
 
-        Map<String, TableLine[]> context = new HashMap<>();
-
-        TableLine[] tableLines = new TableLine[result.getStagesLength() + 1];
+        ArrayList<Digit> digitsArray = new ArrayList<>();
         for (int i = 0; i <= result.getStagesLength(); i++) {
-            tableLines[i] = new TableLine(getOutput(result, i));
+            digitsArray.addAll(getOutput(result, i));
+//            if(tableLines == null) {
+//                tableLines = new TableLine[(result.getStagesLength() + 1)*output.length()];  
+//            }
+//            for(int j = 0; j < output.length();j++) {
+//                tableLines[k++] = new TableLine(output.charAt(j));
+//            }
         }
-        context.put("tableLines", tableLines);
+        
+        Map<String, Object> context = new HashMap<>();
+        context.put("digitsArray", digitsArray);
+        context.put("widthCanvas", 32*(lengthDivisor+lengthDividend-1));        
 
         StringWriter writer = new StringWriter();
         mustacheTemplate.execute(writer, context);
         return writer.toString();
     }
 
-    //pacage access for thr testing
+    //package access for the testing
     Mustache getMustacheTemplate(String mustacheTemplateName) throws DivisionInnerProccessingException {
         try {
             return new DefaultMustacheFactory().compile(mustacheTemplateName);
@@ -53,55 +65,78 @@ public class HtmlFormatter implements Formatter {
         }
     }
 
-    private class TableLine {
-        private String value;
+    private class Digit {
+        @Getter
+        private char value;
+        private int id;
 
-        public TableLine(String value) {
+        public Digit(char value, int id) {
             this.value = value;
+            this.id = id;
         }
 
-        public String getValue() {
-            return value;
+        public Digit(char value) {
+            this(value, 0);
+        }
+
+        public String getId() {
+            return "id = \""+id+"\"";
         }
     }
 
-    private String getOutput(Result result, int step) {
-        String output = "";
+    private ArrayList<Digit> getOutput(Result result, int step) {
+        ArrayList<Digit> digitsArray = new ArrayList<>();
         if (step == 0) {
-            output += getOutputHead(result);
+            digitsArray.addAll(getOutputHead(result));
         }
         if (step != result.getStagesLength()) {
-            output += getOutputBody(result, step);
+            digitsArray.addAll(getOutputBody(result, step));
         }
         if (step == result.getStagesLength()) {
-            output += getOutputTail(result);
+            digitsArray.addAll(getOutputTail(result));
         }
-        return output;
+        return digitsArray;
     }
 
     private String getOutputHead(Result result) {
-        String output, formatBodyTail, stringQuotient;
+        ArrayList<Digit> digitsArray = new ArrayList<>();
+        String stringQuotent = String.valueOf(result.getQuotient());
+        
+        for(int i =0;i< lengthDivisor;i++) {
+            digitsArray.add(new Digit(' '));     
+        }
+        
+        Collections.addAll(digitsArray, stringQuotent.toCharArray());
 
-        stringQuotient = String.valueOf(result.getQuotient());
-        formatBodyTail = getFormatBodyTail(lengthDivisor + stringQuotient.length());
-        output = String.format(formatBodyTail, result.getQuotient());
+       
+        output = output + quotent;
+        for(int i = 0;i < lengthDividend - stringLength(quotent)-1;i++) {
+            output+=" ";            
+        }  
+
         output += String.format(TEMPLATE_HEAD_2_LINE, result.getDivisor(), result.getDividend());
 
         return output;
     }
 
     private String getOutputBody(Result result, int step) {
-        String output = "", formatBodyTail;
+        String outputPartialDividend = "",outputPartialQuotent = "", formatBodyTail;
 
         integralOffset += result.getStageOffset(step);
 
         formatBodyTail = getFormatBodyTail(integralOffset);
         if (step > 0) {
-            output = String.format(formatBodyTail, result.getPartialDividend(step));
+            outputPartialDividend = String.format(formatBodyTail, result.getPartialDividend(step));
+            while(outputPartialDividend.length()+1 - lengthDividend- lengthDivisor < 0) {
+                outputPartialDividend+=" ";  
+            }
         }
 
-        output += String.format(formatBodyTail, result.getPartialQuotient(step));
-        return output;
+        outputPartialQuotent += String.format(formatBodyTail, result.getPartialQuotient(step));
+        while(outputPartialQuotent.length()+1 - lengthDividend- lengthDivisor < 0) {
+            outputPartialQuotent+=" ";  
+        }
+        return outputPartialDividend + outputPartialQuotent;
     }
 
     private String getOutputTail(Result result) {
@@ -116,5 +151,9 @@ public class HtmlFormatter implements Formatter {
     @Override
     public String toString() {
         return "HTML";
+    }
+    
+    private static int stringLength(int number) {
+        return String.valueOf(number).length();  
     }
 }

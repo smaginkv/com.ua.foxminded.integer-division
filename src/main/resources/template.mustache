@@ -2,30 +2,52 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Variant-1</title>
+<title>Integer division</title>
 <style>
-.division {
-    border: 1px dashed #634f36;
-background: #fffff5;
+body {
+    border-collapse: collapse;
     font-family: "Courier New", Courier, monospace;
-    padding: 7px;
+    font-size:32px;
     white-space: pre;
 }
-
-td:hover {
+.block {
+    display: flex;
+    border: 1px solid black;
+    flex-wrap: wrap;
+    width: {{widthCanvas}}px;
+    justify-content: space-between;
     background: #786b59;
-    color: #ffe;
+    margin: 16px;
 }
+
+.block__element {
+    width: 32px;
+    text-align: center;
+}
+
+#target1:hover ~ #source1Green{
+    color: green;
+    font-weight: 600;
+}
+
+#target1:hover ~ #source1Blue{
+    color: blue;
+    font-weight: 600;
+}
+
+#target1:hover ~ #source1Violet{
+    color: violet;
+    font-weight: 600;
+}
+   
 </style>
 </head>
 <body>
     <p>British notation:</p>
-    <table class="division">
-        {{#tableLines}}
-        <tr>
-            <td><span>{{value}}</span></td>
-        </tr>
-        {{/tableLines}}
-    </table>
+    <div class="block">
+        {{#digitsArray}}
+            <div class="block__element" {{id_element}}>{{value}}</div>
+        {{/digitsArray}}
+    </div>
 </body>
 </html>
